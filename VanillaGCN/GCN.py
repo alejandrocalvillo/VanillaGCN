@@ -23,12 +23,12 @@ import torch_geometric.transforms as T
 from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
 
-class VanillaGCNN(nn.Module):
+class VanillaGCN(nn.Module):
     #input_dim: Nº of input dimensions
     #output_dim: Nº of output dimensions
     #num_layers: Nº of convolution performed
     def __init__(self, input_dim, output_dim, output_dim_data, num_layers=2) -> None:
-        super(VanillaGCNN,self).__init__
+        super(VanillaGCN,self).__init__
         self.conv=nn.ModuleList()
         self.conv.append(pyg_nn.GCNConv(input_dim, output_dim))
         for i in range(num_layers):
@@ -57,5 +57,6 @@ class VanillaGCNN(nn.Module):
             x = self.post_mp(x)
 
         return embending, F.log_softmax(x, dim=1)
+    
     def loss(self, pred, true):
         return F.nll_loss(pred, true)
