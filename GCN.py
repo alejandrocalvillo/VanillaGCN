@@ -43,4 +43,19 @@ class VanillaGCNN(nn.Module):
         # data.x: feature matrix
         # data.edge_index: adjacency matrix
         # data.batch: batch matrix (A matrix that represent relation between nodes belonging to a graph)
-        x, edge_index, batch=data.x, data.edge_index, data.batch
+        x, edge_index, batch = data.x, data.edge_index, data.batch
+
+        for i in range(self.num_layers):
+            x=self.conv[i](x, edge_index)
+            embending=x
+            #Probar con reLU tambien
+            x=F.tanh(x)
+            x = self.dropout(x, p=self.dropout, training=self.training)
+            if not i == self.num_layers - 1:
+                x = self.lns[i](x)
+            
+            x = self.post_mp(x)
+
+        return embending, F.log_softmax(x, dim=1)
+    def loss(self, pred, true):
+        return F.nll_loss(pred, true)
