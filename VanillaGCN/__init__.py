@@ -23,13 +23,13 @@ import torch.optim as optim
 
 import torch_geometric.nn as pyg_nn
 import torch_geometric.utils as pyg_utils
+import torch_geometric.utils.convert as pyg_convert
 
 from torch_geometric.datasets import TUDataset
 from torch_geometric.datasets import Planetoid
 from torch_geometric.data import DataLoader
 
 import torch_geometric.transforms as T
-
 
 from .data_generator import input_fn
 from .GCN import VanillaGCN
@@ -57,9 +57,14 @@ def main(train_path, final_evaluation=False, ckpt_dir="./modelCheckpoints"):
         return None
     
     ds_train = input_fn(train_path, shuffle=True, training=True)
-    ds_train = ds_train.repeat()
+    # ds_train = ds_train.repeat()
     ds_test = input_fn(TEST_PATH, shuffle=False)
     ds_test = ds_test.prefetch(tf.data.experimental.AUTOTUNE)
 
+    # data = pyg_convert.from_networkx(ds_train)
+    print("------------------------TRAIN--------------------------")
     print(ds_train)
-    
+    print("------------------------TEST--------------------------")
+    print(ds_test)
+
+    # data = pyg_convert.from_scipy_sparse_matrix(ds_train)
