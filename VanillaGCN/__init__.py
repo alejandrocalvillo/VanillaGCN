@@ -66,7 +66,7 @@ def main(train_path, final_evaluation=False, ckpt_dir="./modelCheckpoints"):
     ds_test = ds_test.prefetch(tf.data.experimental.AUTOTUNE)
 
     data_folder_name = "training"
-    src_path = f"{data_folder_name}/results/dataset/"
+    src_path = f"{data_folder_name}/results/dataset1/"
 
     # Range of the maximum average lambda | traffic intensity used 
     #  max_avg_lambda_range = [min_value,max_value] 
