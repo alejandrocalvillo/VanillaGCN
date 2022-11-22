@@ -106,3 +106,4 @@ def main(train_path, final_evaluation=False, ckpt_dir="./modelCheckpoints"):
     plt.xlabel("Delay (s)")
     plt.show()
     plt.close()
+    plt.savefig('hist1.png')
