@@ -38,9 +38,9 @@ plt.title("Histogram showing the delay per path")
 plt.xlabel("Delay (s)")
 path = 'histograms/hist'
 for i in range(60):
-    path + i+ ".png"
+    path+repr(i)+".png"
     if os.path.exists(path):
         continue
     else:
-        plt.savefig(path+i+".png")
+        plt.savefig(path+repr(i)+".png")
 plt.close()
