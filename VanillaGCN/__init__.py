@@ -33,6 +33,7 @@ import torch_geometric.transforms as T
 
 from .data_generator import input_fn
 from .GCN import VanillaGCN
+from .datanetAPI import DatanetAPI
 
 def main(train_path, final_evaluation=False, ckpt_dir="./modelCheckpoints"):
     if (not os.path.exists(train_path)):
@@ -61,10 +62,24 @@ def main(train_path, final_evaluation=False, ckpt_dir="./modelCheckpoints"):
     ds_test = input_fn(TEST_PATH, shuffle=False)
     ds_test = ds_test.prefetch(tf.data.experimental.AUTOTUNE)
 
-    # data = pyg_convert.from_networkx(ds_train)
-    print("------------------------TRAIN--------------------------")
-    print(ds_train)
-    print("------------------------TEST--------------------------")
-    print(ds_test)
+    data_folder_name = "training"
+    src_path = f"{data_folder_name}/results/dataset/"
 
-    # data = pyg_convert.from_scipy_sparse_matrix(ds_train)
+    # Range of the maximum average lambda | traffic intensity used 
+    #  max_avg_lambda_range = [min_value,max_value] 
+    max_avg_lambda_range = [10,10000]
+
+    # List of the network topology sizes to use
+    net_size_lst = [4,5,6,7,8,9,10]
+
+    # Obtain all the samples from the dataset
+    reader = datanetAPI.DatanetAPI(src_path,max_avg_lambda_range, net_size_lst)
+    samples_lst = []
+    for sample in reader:
+        samples_lst.append(sample)
+    print ("Number of selected samples: ",len(samples_lst))
+    
+    # print("------------------------TRAIN--------------------------")
+    # print(ds_train)
+    # print("------------------------TEST--------------------------")
+    # print(ds_test)
