@@ -33,6 +33,14 @@ class VanillaGCN(nn.Module):
         self.conv1 = GCNConv(input_size, 16)
         self.conv2 = GCNConv(16, hidden_size)
 
+
+#     == Abajo el código de la documentación ==
+#     input para cada nodo (x), matriz de adyacencia (Adj)
+#     y pesos de los enlaces (edge_index)
+#
+#     def forward(self, x: Tensor, edge_index: Adj,
+#                 edge_weight: OptTensor = None) -> Tensor:
+
     def forward(self, data):
         x, edge_index = data['traffic'], data['path-to-queue']
 
