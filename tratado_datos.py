@@ -5,7 +5,6 @@ import random
 import matplotlib.pyplot as plt
 from astropy.visualization import hist
 
-
 data_folder_name = "training"
 src_path = f"{data_folder_name}/results/dataset1/"
 # Range of the maximum average lambda | traffic intensity used 
