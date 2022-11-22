@@ -1,4 +1,5 @@
 from VanillaGCN import datanetAPI
+import os
 import numpy as np
 import random
 import matplotlib.pyplot as plt
@@ -35,6 +36,11 @@ for i in range (s.get_network_size()):
 hist(delays_lst, bins='blocks', histtype='stepfilled',alpha=0.2, density=True)
 plt.title("Histogram showing the delay per path")
 plt.xlabel("Delay (s)")
-plt.savefig('histograms/hist1.png')
-plt.show()
+path = 'histograms/hist'
+for i in range(60):
+    path + i+ ".png"
+    if os.path.exists(path):
+        continue
+    else:
+        plt.savefig(path+i+".png")
 plt.close()
