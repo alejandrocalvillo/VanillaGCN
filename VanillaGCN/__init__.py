@@ -13,6 +13,9 @@ random.seed(seed_value)
 import numpy as np
 np.random.seed(seed_value)
 
+import matplotlib.pyplot as plt
+from astropy.visualization import hist
+
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 import tensorflow as tf
@@ -83,3 +86,23 @@ def main(train_path, final_evaluation=False, ckpt_dir="./modelCheckpoints"):
     # print(ds_train)
     # print("------------------------TEST--------------------------")
     # print(ds_test)
+
+    # Plot histogram of the delay of all path of a sample
+# We select a random sample (Or we can try to chose one!)
+# s= samples_lst[0]
+    s = random.choice(samples_lst)
+    delays_lst = []
+    performance_matrix = s.get_performance_matrix()
+    for i in range (s.get_network_size()):
+        for j in range (s.get_network_size()):
+            if (i == j):
+                continue
+            # Append to the list the average delay of the path i,j.
+            delays_lst.append(performance_matrix[i,j]["AggInfo"]["AvgDelay"])
+
+    #Plot histogram using astropy to use correct value of bins
+    hist(delays_lst, bins='blocks', histtype='stepfilled',alpha=0.2, density=True)
+    plt.title("Histogram showing the delay per path")
+    plt.xlabel("Delay (s)")
+    plt.show()
+    plt.close()
