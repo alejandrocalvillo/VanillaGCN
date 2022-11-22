@@ -23,4 +23,4 @@ def main():
     print ("Number of selected samples: ",len(samples_lst))
 
     A = nx.adjacency_matrix(G[0])
-    print(A)
+    print(nx.to_numpy_array(A))
