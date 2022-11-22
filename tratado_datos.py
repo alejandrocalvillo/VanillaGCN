@@ -43,4 +43,5 @@ for i in range(60):
         continue
     else:
         plt.savefig(path+repr(i)+".png")
+        break
 plt.close()
