@@ -15,6 +15,6 @@ for item in X[0]:
 in_data = torch.stack(train_examples)
 
 
-out_data =torch.Tensor(y_t[0].get('delay'))
+out_data =torch.Tensor(y_t[0])
 c1= GCNConv(len(in_data),len(out_data))
 y_pred = c1.forward(x=in_data, edge_index=edge_index[0])
