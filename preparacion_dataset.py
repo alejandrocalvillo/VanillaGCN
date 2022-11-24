@@ -24,7 +24,7 @@ def preparation_dataset(src_path):
         R = sample.get_routing_matrix()
         P = sample.get_performance_matrix()
         HG.append(data_generator.network_to_hypergraph(G=G, R=R, T=T, P=P))
-
+    
     return HG
     
 def hg_to_data (HG):
@@ -39,7 +39,7 @@ def hg_to_data (HG):
         dic_y_t.append(list(nx.get_node_attributes(HG[i], 'delay').values()))
     
     for i in range(len(HG)):
-        adjacency.append(nx.adjacency_matrix(HG[i]))
+        adjacency.append(nx.to_numpy_matrix(HG[i]))
 
     return dic_HG, dic_y_t, adjacency
     
