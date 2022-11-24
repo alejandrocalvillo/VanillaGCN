@@ -24,8 +24,6 @@ def preparation_dataset(src_path):
         R = sample.get_routing_matrix()
         P = sample.get_performance_matrix()
         HG.append(data_generator.network_to_hypergraph(G=G, R=R, T=T, P=P))
-    A = nx.adjacency_matrix(HG[0])
-    print(A)
 
     return HG
     
