@@ -43,7 +43,6 @@ def hg_to_data (HG):
 
     return dic_HG, dic_y_t, adjacency
     
-
     #  return {"traffic": np.expand_dims(list(nx.get_node_attributes(HG, 'traffic').values()), axis=1),
     #             "packets": np.expand_dims(list(nx.get_node_attributes(HG, 'packets').values()), axis=1),
     #             "length": list(nx.get_node_attributes(HG, 'length').values()),
