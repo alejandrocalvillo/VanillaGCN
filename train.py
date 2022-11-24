@@ -9,4 +9,4 @@ X, y_t, edge_index = hg_to_data(HG)
 
 print(edge_index)
 c1= GCNConv(len(HG),len(y_t))
-y_pred = c1.forward(x=X[0], edge_index=edge_index[0])
+y_pred = c1.forward(x=X, edge_index=edge_index[0])
