@@ -1,13 +1,13 @@
-from VanillaGCN import datanetAPI
+from VanillaGCN import datanetAPI, data_generator
 import os
 import numpy as np
 import random
 import matplotlib.pyplot as plt
 import networkx as nx
 from astropy.visualization import hist
-def main():
-    data_folder_name = "training"
-    src_path = f"{data_folder_name}/results/dataset1/"
+
+def preparation_dataset(src_path):
+    
     # Range of the maximum average lambda | traffic intensity used 
     #  max_avg_lambda_range = [min_value,max_value] 
     max_avg_lambda_range = [10,10000]
@@ -16,11 +16,42 @@ def main():
     # Obtain all the samples from the dataset
     reader = datanetAPI.DatanetAPI(src_path,max_avg_lambda_range, net_size_lst)
     samples_lst = []
-    graph_topology = []
+    HG = []
     for sample in reader:
         samples_lst.append(sample)
         G = nx.DiGraph(sample.get_topology_object())
-    print ("Number of selected samples: ",len(samples_lst))
+        T = sample.get_traffic_matrix()
+        R = sample.get_routing_matrix()
+        P = sample.get_performance_matrix()
+        HG.append(data_generator.network_to_hypergraph(G=G, R=R, T=T, P=P))
 
-    A = nx.adjacency_matrix(G[0])
-    print(nx.to_numpy_array(A))
+    return {"capacity": np.expand_dims(list(nx.get_node_attributes(HG[0], 'capacity').values()), axis=1),
+            "queue_size": np.expand_dims(list(nx.get_node_attributes(HG[0], 'queue_size').values()), axis=1)
+            },list(nx.get_node_attributes(HG[0], 'delay').values()), nx.adjacency_matrix(HG[0])
+    # A = nx.adjacency_matrix(HG[0])
+    # print(A)
+
+    #  return {"traffic": np.expand_dims(list(nx.get_node_attributes(HG, 'traffic').values()), axis=1),
+    #             "packets": np.expand_dims(list(nx.get_node_attributes(HG, 'packets').values()), axis=1),
+    #             "length": list(nx.get_node_attributes(HG, 'length').values()),
+    #             "model": list(nx.get_node_attributes(HG, 'model').values()),
+    #             "eq_lambda": np.expand_dims(list(nx.get_node_attributes(HG, 'eq_lambda').values()), axis=1),
+    #             "avg_pkts_lambda": np.expand_dims(list(nx.get_node_attributes(HG, 'avg_pkts_lambda').values()), axis=1),
+    #             "exp_max_factor": np.expand_dims(list(nx.get_node_attributes(HG, 'exp_max_factor').values()), axis=1),
+    #             "pkts_lambda_on": np.expand_dims(list(nx.get_node_attributes(HG, 'pkts_lambda_on').values()), axis=1),
+    #             "avg_t_off": np.expand_dims(list(nx.get_node_attributes(HG, 'avg_t_off').values()), axis=1),
+    #             "avg_t_on": np.expand_dims(list(nx.get_node_attributes(HG, 'avg_t_on').values()), axis=1),
+    #             "ar_a": np.expand_dims(list(nx.get_node_attributes(HG, 'ar_a').values()), axis=1),
+    #             "sigma": np.expand_dims(list(nx.get_node_attributes(HG, 'sigma').values()), axis=1),
+    #             "capacity": np.expand_dims(list(nx.get_node_attributes(HG, 'capacity').values()), axis=1),
+    #             "queue_size": np.expand_dims(list(nx.get_node_attributes(HG, 'queue_size').values()), axis=1),
+    #             "policy": list(nx.get_node_attributes(HG, 'policy').values()),
+    #             "priority": list(nx.get_node_attributes(HG, 'priority').values()),
+    #             "weight": np.expand_dims(list(nx.get_node_attributes(HG, 'weight').values()), axis=1),
+    #             "delay": list(nx.get_node_attributes(HG, 'delay').values()),
+    #             "link_to_path": tf.ragged.constant(link_to_path),
+    #             "queue_to_path": tf.ragged.constant(queue_to_path),
+    #             "queue_to_link": tf.ragged.constant(queue_to_link),
+    #             "path_to_queue": tf.ragged.constant(path_to_queue, ragged_rank=1),
+    #             "path_to_link": tf.ragged.constant(path_to_link, ragged_rank=1)
+    #             }, list(nx.get_node_attributes(HG, 'delay').values())
