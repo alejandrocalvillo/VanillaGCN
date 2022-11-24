@@ -24,12 +24,27 @@ def preparation_dataset(src_path):
         R = sample.get_routing_matrix()
         P = sample.get_performance_matrix()
         HG.append(data_generator.network_to_hypergraph(G=G, R=R, T=T, P=P))
+    A = nx.adjacency_matrix(HG[0])
+    print(A)
 
-    return {"capacity": np.expand_dims(list(nx.get_node_attributes(HG[0], 'capacity').values()), axis=1),
+    return HG
+    
+def hg_to_data (HG):
+    dic_HG = []
+    dic_y_t = []
+    adjacency = []
+    for i in len(HG):
+        dic_HG.append({"capacity": np.expand_dims(list(nx.get_node_attributes(HG[0], 'capacity').values()), axis=1),
             "queue_size": np.expand_dims(list(nx.get_node_attributes(HG[0], 'queue_size').values()), axis=1)
-            },list(nx.get_node_attributes(HG[0], 'delay').values()), nx.adjacency_matrix(HG[0])
-    # A = nx.adjacency_matrix(HG[0])
-    # print(A)
+            })
+    for i in len(HG):
+        dic_y_t.append(list(nx.get_node_attributes(HG[0], 'delay').values()))
+    
+    for i in len(HG):
+        adjacency.append(nx.adjacency_matrix(HG[0]))
+
+    return dic_HG, dic_y_t, adjacency
+    
 
     #  return {"traffic": np.expand_dims(list(nx.get_node_attributes(HG, 'traffic').values()), axis=1),
     #             "packets": np.expand_dims(list(nx.get_node_attributes(HG, 'packets').values()), axis=1),
