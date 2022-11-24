@@ -16,5 +16,5 @@ in_data = torch.stack(train_examples)
 
 
 
-c1= GCNConv(len(HG),len(y_t))
+c1= GCNConv(len(in_data),len(y_t))
 y_pred = c1.forward(x=in_data, edge_index=edge_index[0])
