@@ -14,7 +14,9 @@ for item in X[0]:
     train_examples.append(tensor)
 in_data = torch.stack(train_examples)
 
-
 out_data =torch.Tensor(y_t[0])
+print(in_data.shape)
+print("--------------------------------------------")
+print(out_data.shape)
 c1= GCNConv(len(in_data),len(out_data))
 y_pred = c1.forward(x=in_data, edge_index=edge_index[0])
