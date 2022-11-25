@@ -31,7 +31,7 @@ def hg_to_data (HG):
     dic_HG = []
     dic_y_t = []
     adjacency = []
-    for i in range(len(HG)):
+    for i in range(len(HG)-2):
         dic_HG.append({"capacity": np.expand_dims(list(nx.get_node_attributes(HG[i], 'capacity').values()), axis=1),
             "queue_size": np.expand_dims(list(nx.get_node_attributes(HG[i], 'queue_size').values()), axis=1)
             })
