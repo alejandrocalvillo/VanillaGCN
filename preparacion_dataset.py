@@ -31,12 +31,12 @@ def hg_to_data (HG):
     dic_HG = []
     dic_y_t = []
     adjacency = []
-    for i in range(len(HG)-2):
+    for i in range(len(HG)):
         dic_HG.append({"capacity": np.expand_dims(list(nx.get_node_attributes(HG[i], 'capacity').values()), axis=1),
             "queue_size": np.expand_dims(list(nx.get_node_attributes(HG[i], 'queue_size').values()), axis=1)
             })
     for i in range(len(HG)):
-        dic_y_t.append(list(nx.get_node_attributes(HG[i], 'delay').values()))
+        dic_y_t.append(np.expand_dims(list(nx.get_node_attributes(HG[i], 'delay').values()), axis = 1))
     
     for i in range(len(HG)):
         adjacency.append(nx.to_numpy_matrix(HG[i]))
