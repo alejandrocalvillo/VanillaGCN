@@ -16,9 +16,9 @@ in_data = torch.stack(train_examples)
 
 
 out_data =torch.Tensor(y_t[0])
-
+input_adjacency = torch.Tensor(edge_index[0])
 print(in_data.shape)
 print("--------------------------------------------")
 print(out_data.shape)
 c1= GCNConv(1,32)
-y_pred = c1.forward(x=in_data, edge_index=edge_index[0])
+y_pred = c1.forward(x=in_data, edge_index=input_adjacency)
