@@ -5,9 +5,11 @@ from torch_geometric.nn import GCNConv
 data_folder_name = "training"
 src_path = f"{data_folder_name}/results/dataset1/"
 
-HG,edge_index = preparation_dataset(src_path)
-print("El tensor es: ", HG)
-print("Su forma: ", HG.shape)
+metricas_entrada, metricas_salida,edge_index = preparation_dataset(src_path)
+print("El tensor de entrada es: ", metricas_entrada)
+print("Su forma: ", metricas_entrada.shape)
+print("El tensor de salida es: ", metricas_salida)
+print("Su forma: ", metricas_salida.shape)
 print("Matrix adjacency: ", edge_index[0])
 train_examples = []
 # for item in X[0]:

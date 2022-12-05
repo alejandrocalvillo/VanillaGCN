@@ -18,41 +18,62 @@ def preparation_dataset(src_path):
     reader = datanetAPI.DatanetAPI(src_path,max_avg_lambda_range, net_size_lst)
     samples_lst = []
     in_data = []
+    out_data = []
     edge_index = []
 
     for sample in reader:
         samples_lst.append(sample)
         S = sample.get_performance_matrix()
+        R = sample.get_traffic_matrix()
+
+        print("S: ", S)
+        print("R: ", R)
         input_to_tensor = []
         delays_lst = []
         jitter_lst = []
-
+        pkts_gen_lst = []
         for i in range (sample.get_network_size()):
             cumulativeDelay = 0
             cumulativeJitter = 0
+            cumulativePkts_gen = 0
             for j in range (sample.get_network_size()):
                 if (i == j):
                     continue
                 cumulativeDelay = S[i,j]["AggInfo"]["AvgDelay"] + cumulativeDelay
                 cumulativeJitter = S[i,j]["AggInfo"]["Jitter"] + cumulativeJitter
+
+            for j in range (sample.get_network_size()):
+                if (i == j):
+                    continue
+                cumulativePkts_gen = R[i,j]["AggInfo"]["TotalPktsGen"] + cumulativePkts_gen
             #Node i
             delays_lst.append(cumulativeDelay)
             jitter_lst.append(cumulativeJitter)
+            pkts_gen_lst.append(cumulativePkts_gen)
 
-        aux_lst = [delays_lst,jitter_lst]
-        metricas = np.asarray(aux_lst)
-        input_to_tensor = torch.Tensor(metricas)
+        #InputData
+        aux_in_lst = [delays_lst,jitter_lst]
+        metricas_in = np.asarray(aux_in_lst)
+        input_to_tensor = torch.Tensor(metricas_in)
         in_data.append(input_to_tensor)
         print("in_data: ", in_data)
+
+        #OutputData
+
+        aux_out_lst = [pkts_gen_lst]
+        metricas_out = np.asarray(aux_out_lst)
+        output_to_tensor = torch.Tensor(metricas_out)
+        out_data.append(output_to_tensor)
+        print("out_data: ", out_data)
+
+        #Adjacency Matrix
         G = nx.DiGraph(sample.get_topology_object())
-        T = sample.get_traffic_matrix()
-        R = sample.get_routing_matrix()
-        P = sample.get_performance_matrix()
         edge_index.append(nx.adjacency_matrix(G))
 
     in_data_tensor = torch.stack(in_data)
+    out_data_tensor = torch.stack(out_data)
 
-    return in_data_tensor, edge_index
+    return in_data_tensor, out_data_tensor, edge_index
     
 def hg_to_data (HG):
     dic_HG = []
@@ -69,28 +90,3 @@ def hg_to_data (HG):
         adjacency.append(nx.to_numpy_matrix(HG[i]))
 
     return dic_HG, dic_y_t, adjacency
-    
-    #  return {"traffic": np.expand_dims(list(nx.get_node_attributes(HG, 'traffic').values()), axis=1),
-    #             "packets": np.expand_dims(list(nx.get_node_attributes(HG, 'packets').values()), axis=1),
-    #             "length": list(nx.get_node_attributes(HG, 'length').values()),
-    #             "model": list(nx.get_node_attributes(HG, 'model').values()),
-    #             "eq_lambda": np.expand_dims(list(nx.get_node_attributes(HG, 'eq_lambda').values()), axis=1),
-    #             "avg_pkts_lambda": np.expand_dims(list(nx.get_node_attributes(HG, 'avg_pkts_lambda').values()), axis=1),
-    #             "exp_max_factor": np.expand_dims(list(nx.get_node_attributes(HG, 'exp_max_factor').values()), axis=1),
-    #             "pkts_lambda_on": np.expand_dims(list(nx.get_node_attributes(HG, 'pkts_lambda_on').values()), axis=1),
-    #             "avg_t_off": np.expand_dims(list(nx.get_node_attributes(HG, 'avg_t_off').values()), axis=1),
-    #             "avg_t_on": np.expand_dims(list(nx.get_node_attributes(HG, 'avg_t_on').values()), axis=1),
-    #             "ar_a": np.expand_dims(list(nx.get_node_attributes(HG, 'ar_a').values()), axis=1),
-    #             "sigma": np.expand_dims(list(nx.get_node_attributes(HG, 'sigma').values()), axis=1),
-    #             "capacity": np.expand_dims(list(nx.get_node_attributes(HG, 'capacity').values()), axis=1),
-    #             "queue_size": np.expand_dims(list(nx.get_node_attributes(HG, 'queue_size').values()), axis=1),
-    #             "policy": list(nx.get_node_attributes(HG, 'policy').values()),
-    #             "priority": list(nx.get_node_attributes(HG, 'priority').values()),
-    #             "weight": np.expand_dims(list(nx.get_node_attributes(HG, 'weight').values()), axis=1),
-    #             "delay": list(nx.get_node_attributes(HG, 'delay').values()),
-    #             "link_to_path": tf.ragged.constant(link_to_path),
-    #             "queue_to_path": tf.ragged.constant(queue_to_path),
-    #             "queue_to_link": tf.ragged.constant(queue_to_link),
-    #             "path_to_queue": tf.ragged.constant(path_to_queue, ragged_rank=1),
-    #             "path_to_link": tf.ragged.constant(path_to_link, ragged_rank=1)
-    #             }, list(nx.get_node_attributes(HG, 'delay').values())
