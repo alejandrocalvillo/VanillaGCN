@@ -3,6 +3,11 @@ import torch
 from torch.nn import Linear, ReLU, Dropout
 from torch_geometric.nn import GCNConv, Sequential
 
+import torch.nn.functional as F
+from torch_geometric.nn import GCNConv
+
+from model import MyGCN
+
 data_folder_name = "training"
 src_path = f"{data_folder_name}/results/dataset1/"
 
@@ -19,17 +24,22 @@ train_examples = []
 # in_data = torch.stack(HG)
 
 a = edge_index[0].todense()
-a_tensor = torch.Tensor(a)
-print("A:",a_tensor)
-print("A shape: ", a_tensor.shape)
+edge_tensor = torch.Tensor(a)
+print("--------------------------------------------")
+# print(in_data.shape)
 print("--------------------------------------------")
 
-model = Sequential('x, edge_index', [
-    (GCNConv(2, 64), 'x, edge_index -> x'),
-    ReLU(inplace=True),
-    (GCNConv(64, 64), 'x, edge_index -> x'),
-    ReLU(inplace=True),
-    Linear(64, 1),
-])
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+model = MyGCN().to(device)
 
-model.forward()
+optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=5e-4)
+
+#train
+
+model.train()
+for epoch in range(20):
+    optimizer.zero_grad()
+    out = model(x = metricas_entrada[0], edge_index=edge_tensor[0])
+    loss = F.nll_loss(out, metricas_salida[0])
+    loss.backward()
+    optimizer.step()
