@@ -1,5 +1,6 @@
 from VanillaGCN import datanetAPI, data_generator
 import os
+import torch
 import numpy as np
 import random
 import matplotlib.pyplot as plt
@@ -7,25 +8,51 @@ import networkx as nx
 from astropy.visualization import hist
 
 def preparation_dataset(src_path):
-    
-    # Range of the maximum average lambda | traffic intensity used 
-    #  max_avg_lambda_range = [min_value,max_value] 
+
+    # Range of the maximum average lambda | traffic intensity used
+    #  max_avg_lambda_range = [min_value,max_value]
     max_avg_lambda_range = [10,10000]
     # List of the network topology sizes to use
-    net_size_lst = [4,5,6,7,8,9,10]
+    net_size_lst = [9]
     # Obtain all the samples from the dataset
     reader = datanetAPI.DatanetAPI(src_path,max_avg_lambda_range, net_size_lst)
     samples_lst = []
-    HG = []
+    in_data = []
+    edge_index = []
+
     for sample in reader:
         samples_lst.append(sample)
+        S = sample.get_performance_matrix()
+        input_to_tensor = []
+        delays_lst = []
+        jitter_lst = []
+
+        for i in range (sample.get_network_size()):
+            cumulativeDelay = 0
+            cumulativeJitter = 0
+            for j in range (sample.get_network_size()):
+                if (i == j):
+                    continue
+                cumulativeDelay = S[i,j]["AggInfo"]["AvgDelay"] + cumulativeDelay
+                cumulativeJitter = S[i,j]["AggInfo"]["Jitter"] + cumulativeJitter
+            #Node i
+            delays_lst.append(cumulativeDelay)
+            jitter_lst.append(cumulativeJitter)
+
+        aux_lst = [delays_lst,jitter_lst]
+        metricas = np.asarray(aux_lst)
+        input_to_tensor = torch.Tensor(metricas)
+        in_data.append(input_to_tensor)
+        print("in_data: ", in_data)
         G = nx.DiGraph(sample.get_topology_object())
         T = sample.get_traffic_matrix()
         R = sample.get_routing_matrix()
         P = sample.get_performance_matrix()
-        HG.append(data_generator.network_to_hypergraph(G=G, R=R, T=T, P=P))
-    
-    return HG
+        edge_index.append(nx.adjacency_matrix(G))
+
+    in_data_tensor = torch.stack(in_data)
+
+    return in_data_tensor, edge_index
     
 def hg_to_data (HG):
     dic_HG = []
