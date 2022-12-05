@@ -1,6 +1,7 @@
 from preparacion_dataset import preparation_dataset, hg_to_data
 import torch
-from torch_geometric.nn import GCNConv
+from torch.nn import Linear, ReLU, Dropout
+from torch_geometric.nn import GCNConv, Sequential
 
 data_folder_name = "training"
 src_path = f"{data_folder_name}/results/dataset1/"
@@ -17,8 +18,18 @@ train_examples = []
 #     train_examples.append(tensor)
 # in_data = torch.stack(HG)
 
-
-
-# print(in_data.shape)
+a = edge_index[0].todense()
+a_tensor = torch.Tensor(a)
+print("A:",a_tensor)
+print("A shape: ", a_tensor.shape)
 print("--------------------------------------------")
-c1= GCNConv(2,1)
+
+model = Sequential('x, edge_index', [
+    (GCNConv(2, 64), 'x, edge_index -> x'),
+    ReLU(inplace=True),
+    (GCNConv(64, 64), 'x, edge_index -> x'),
+    ReLU(inplace=True),
+    Linear(64, 1),
+])
+
+model.forward()

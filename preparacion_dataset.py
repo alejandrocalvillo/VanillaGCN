@@ -25,9 +25,7 @@ def preparation_dataset(src_path):
         samples_lst.append(sample)
         S = sample.get_performance_matrix()
         R = sample.get_traffic_matrix()
-
-        print("S: ", S)
-        print("R: ", R)
+        
         input_to_tensor = []
         delays_lst = []
         jitter_lst = []
@@ -56,7 +54,6 @@ def preparation_dataset(src_path):
         metricas_in = np.asarray(aux_in_lst)
         input_to_tensor = torch.Tensor(metricas_in)
         in_data.append(input_to_tensor)
-        print("in_data: ", in_data)
 
         #OutputData
 
@@ -64,7 +61,6 @@ def preparation_dataset(src_path):
         metricas_out = np.asarray(aux_out_lst)
         output_to_tensor = torch.Tensor(metricas_out)
         out_data.append(output_to_tensor)
-        print("out_data: ", out_data)
 
         #Adjacency Matrix
         G = nx.DiGraph(sample.get_topology_object())
