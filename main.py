@@ -7,7 +7,6 @@ import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
 
-from main import train
 from preparacion_dataset import preparation_dataset, hg_to_data
 
 class GCNConv(MessagePassing):
