@@ -6,12 +6,14 @@ from torch_geometric.nn import GCNConv, Sequential
 import torch.nn.functional as F
 from torch_geometric.nn import GCNConv
 
-from model import MyGCN
+from model import train_node_classifier, print_results
+
 
 data_folder_name = "training"
 src_path = f"{data_folder_name}/results/dataset1/"
 
 metricas_entrada, metricas_salida,edge_index = preparation_dataset(src_path)
+
 print("El tensor de entrada es: ", metricas_entrada)
 print("Su forma: ", metricas_entrada.shape)
 print("El tensor de salida es: ", metricas_salida)
@@ -29,17 +31,35 @@ print("--------------------------------------------")
 # print(in_data.shape)
 print("--------------------------------------------")
 
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-model = MyGCN().to(device)
+print("Empezamos a entrenar")
+node_mlp_model, node_mlp_result = train_node_classifier(model_name="MLP",
+                                                        dataset=metricas_entrada,
+                                                        c_hidden=16,
+                                                        num_layers=2,
+                                                        dp_rate=0.1)
 
-optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=5e-4)
+print_results(node_mlp_result)
 
-#train
 
-model.train()
-for epoch in range(20):
-    optimizer.zero_grad()
-    out = model(x = metricas_entrada[0], edge_index=edge_tensor[0])
-    loss = F.nll_loss(out, metricas_salida[0])
-    loss.backward()
-    optimizer.step()
+
+
+
+
+
+
+
+
+# device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+# model = MyGCN().to(device)
+
+# optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=5e-4)
+
+# #train
+
+# model.train()
+# for epoch in range(20):
+#     optimizer.zero_grad()
+#     out = model(x = metricas_entrada[0], edge_index=edge_tensor[0])
+#     loss = F.nll_loss(out, metricas_salida[0])
+#     loss.backward()
+#     optimizer.step()
