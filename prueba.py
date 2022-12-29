@@ -1,4 +1,4 @@
-from model2 import train
+from main import train
 from preparacion_dataset import preparation_dataset, hg_to_data
 
 import torch
