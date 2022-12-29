@@ -11,7 +11,8 @@ from model import train_node_classifier, print_results
 
 data_folder_name = "training"
 src_path = f"{data_folder_name}/results/dataset1/"
-
+data_folder_name = "checkpoint"
+CHECKPOINT_PATH = f"{data_folder_name}/checkpoint1"
 metricas_entrada, metricas_salida,edge_index = preparation_dataset(src_path)
 
 print("El tensor de entrada es: ", metricas_entrada)
@@ -34,6 +35,7 @@ print("--------------------------------------------")
 print("Empezamos a entrenar")
 node_mlp_model, node_mlp_result = train_node_classifier(model_name="MLP",
                                                         dataset=metricas_entrada,
+                                                        CHECKPOINT_PATH=CHECKPOINT_PATH,
                                                         c_hidden=16,
                                                         num_layers=2,
                                                         dp_rate=0.1)
