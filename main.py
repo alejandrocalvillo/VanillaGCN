@@ -142,7 +142,7 @@ if __name__ == "__main__":
     print("--------------------------------------------")
 
     print("Empezamos a entrenar")
-
+    print("No se nada: ", dataset.num_node_features)
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model = Net(dataset).to(device)
     data = dataset.to(device)
