@@ -170,7 +170,7 @@ def train_node_classifier(model_name, dataset, CHECKPOINT_PATH, **model_kwargs):
     else:
         pl.seed_everything()
         #Aqui esta la parte bonita
-        model = NodeLevelGNN(model_name=model_name, c_in=2, c_out=2, **model_kwargs)
+        model = NodeLevelGNN(model_name=model_name, c_in=2, c_out=1, **model_kwargs)
         trainer.fit(model, node_data_loader, node_data_loader)
         model = NodeLevelGNN.load_from_checkpoint(trainer.checkpoint_callback.best_model_path)
     

@@ -27,7 +27,10 @@ train_examples = []
 # in_data = torch.stack(HG)
 graphs = {'x': metricas_entrada,
           'edge_index': edge_index,
-          'y': metricas_salida  }
+          'y': metricas_salida,
+          'num_node_features': 2,
+          'num_node_classes': 1
+          }
 a = edge_index[0].todense()
 edge_tensor = torch.Tensor(a)
 print("--------------------------------------------")
