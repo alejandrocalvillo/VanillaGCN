@@ -150,6 +150,8 @@ class NodeLevelGNN(pl.LightningModule):
 def train_node_classifier(model_name, dataset, CHECKPOINT_PATH, **model_kwargs):
     pl.seed_everything(42)
     node_data_loader = DataLoader(dataset, batch_size=1)
+    data_folder_name = "checkpoint"
+    CHECKPOINT_PATH = f"{data_folder_name}/checkpoint1"
     device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
     # Create a PyTorch Lightning trainer with the generation callback
     root_dir = os.path.join(CHECKPOINT_PATH, "NodeLevel" + model_name)
