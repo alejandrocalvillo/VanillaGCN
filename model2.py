@@ -50,7 +50,9 @@ class Net(torch.nn.Module):
         x = self.conv2(x, edge_index)
 
         return F.log_softmax(x, dim=1)
-
+        
+device =torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+model = Net.to(device)
 
 def plot_dataset(dataset):
     edges_raw = dataset.data.edge_index.numpy()
