@@ -25,7 +25,9 @@ train_examples = []
 #     tensor = torch.Tensor(X[0].get(item))
 #     train_examples.append(tensor)
 # in_data = torch.stack(HG)
-
+graphs = {'x': metricas_entrada,
+          'edge_index': edge_index,
+          'y': metricas_salida  }
 a = edge_index[0].todense()
 edge_tensor = torch.Tensor(a)
 print("--------------------------------------------")
@@ -34,7 +36,7 @@ print("--------------------------------------------")
 
 print("Empezamos a entrenar")
 node_mlp_model, node_mlp_result = train_node_classifier(model_name="MLP",
-                                                        dataset=metricas_entrada,
+                                                        dataset=graphs,
                                                         CHECKPOINT_PATH=CHECKPOINT_PATH,
                                                         c_hidden=16,
                                                         num_layers=2,
