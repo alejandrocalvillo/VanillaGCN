@@ -55,7 +55,8 @@ print("--------------------------------------------")
 
 
 
-data = Data(x = metricas_entrada[0], edge_index = edge_tensor)
+testloader = torch.utils.data.DataLoader(metricas_entrada, batch_size=4, shuffle=True)
+
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = MyGCN().to(device)
 
