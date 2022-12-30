@@ -67,7 +67,7 @@ optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=5e-4)
 model.train()
 for epoch in range(20):
     optimizer.zero_grad()
-    out = model(x = metricas_entrada , edge_index=edge_tensor.long())
+    out = model(x = testloader , edge_index=edge_tensor.long())
     loss = F.nll_loss(out, torch.transpose(metricas_salida,0,1))
     loss.backward()
     optimizer.step()
