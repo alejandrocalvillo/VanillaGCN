@@ -68,6 +68,6 @@ model.train()
 for data in testloader:
     optimizer.zero_grad()
     out = model(x = data , edge_index=edge_tensor.long())
-    loss = F.nll_loss(out, torch.transpose(metricas_salida,0,1))
+    loss = F.nll_loss(out, metricas_salida)
     loss.backward()
     optimizer.step()
