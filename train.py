@@ -67,6 +67,6 @@ model.train()
 for epoch in range(20):
     optimizer.zero_grad()
     out = model(x = torch.transpose(metricas_entrada,0,1) , edge_index=edge_tensor.long())
-    loss = F.nll_loss(out, metricas_salida)
+    loss = F.nll_loss(out, torch.transpose(metricas_salida,0,1))
     loss.backward()
     optimizer.step()
