@@ -55,7 +55,7 @@ print("--------------------------------------------")
 
 
 
-testloader = torch.utils.data.DataLoader(metricas_entrada, batch_size=4, shuffle=True)
+testloader = torch.utils.data.DataLoader(metricas_entrada, batch_size=20, shuffle=True)
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = MyGCN().to(device)
@@ -65,9 +65,9 @@ optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=5e-4)
 #train
 
 model.train()
-for epoch in range(20):
+for data in testloader:
     optimizer.zero_grad()
-    out = model(x = testloader , edge_index=edge_tensor.long())
+    out = model(x = data , edge_index=edge_tensor.long())
     loss = F.nll_loss(out, torch.transpose(metricas_salida,0,1))
     loss.backward()
     optimizer.step()
