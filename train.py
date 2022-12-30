@@ -5,6 +5,7 @@ from torch_geometric.nn import GCNConv, Sequential
 
 import torch.nn.functional as F
 from torch_geometric.nn import GCNConv
+import torch_geometric.data as Data
 
 from model import train_node_classifier, print_results, MyGCN
 
@@ -54,8 +55,7 @@ print("--------------------------------------------")
 
 
 
-torch.transpose(metricas_entrada,0,1)
-print(edge_tensor,metricas_entrada.shape)
+data = Data(x = metricas_entrada[0], edge_index = edge_tensor)
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = MyGCN().to(device)
 
