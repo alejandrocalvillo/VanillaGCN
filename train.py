@@ -7,6 +7,8 @@ import torch.nn.functional as F
 from torch_geometric.nn import GCNConv
 import torch_geometric.data as Data
 
+#Numpy
+import numpy as np
 from model import train_node_classifier, print_results, MyGCN
 
 
@@ -16,11 +18,11 @@ data_folder_name = "checkpoint"
 CHECKPOINT_PATH = f"{data_folder_name}/checkpoint1"
 metricas_entrada, metricas_salida,edge_index = preparation_dataset(src_path)
 
-print("El tensor de entrada es: ", metricas_entrada)
-print("Su forma: ", metricas_entrada.shape)
-print("El tensor de salida es: ", metricas_salida)
-print("Su forma: ", metricas_salida.shape)
-print("Matrix adjacency: ", edge_index[0])
+#print("El tensor de entrada es: ", metricas_entrada)
+#print("Su forma: ", metricas_entrada.shape)
+#print("El tensor de salida es: ", metricas_salida)
+#print("Su forma: ", metricas_salida.shape)
+#print("Matrix adjacency: ", edge_index[0])
 train_examples = []
 # for item in X[0]:
 #     tensor = torch.Tensor(X[0].get(item))
@@ -33,7 +35,10 @@ graphs = {'x': metricas_entrada,
           'num_node_classes': 1
           }
 a = edge_index[0].todense()
-edge_tensor = torch.Tensor(a)
+edge_tensor = torch.tensor(a, dtype = torch.long)
+input_edge_tensor = edge_tensor.nonzero().t().contiguous()
+print(f'edge tensor.size={edge_tensor.size()}')
+
 print("--------------------------------------------")
 # print(in_data.shape)
 print("--------------------------------------------")
@@ -48,16 +53,17 @@ print("--------------------------------------------")
 
 # print_results(node_mlp_result)
 
+print(edge_tensor)
+print("--------------------------------")
+print(input_edge_tensor)
 
-
-
-
-print(f'metricas entrada size: {metricas_entrada.size()}')
-print(metricas_entrada)
-
-
-
-
+metricas_entrada = np.reshape(metricas_entrada, (20, 9, 2))
+metricas_salida = np.reshape(metricas_salida, (20, 9, 1))
+comparador = metricas_salida[0:4]
+print(metricas_entrada[0].size())
+print("---------------------------------")
+print(metricas_salida[0].size())
+print(comparador.size())
 
 testloader = torch.utils.data.DataLoader(metricas_entrada, batch_size=4, shuffle=True)
 
@@ -67,12 +73,16 @@ model = MyGCN().to(device)
 optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=5e-4)
 
 #train
-
+print(comparador)
 model.train()
 for data in testloader:
-    print(f'iteracion, data.size={data.size()}')
     optimizer.zero_grad()
-    out = model(x = data , edge_index=edge_tensor.long())
-    loss = F.nll_loss(out, metricas_salida)
+    print(f'iteracion, data.size={data.size()}')
+    out = model(x = data , edge_index=input_edge_tensor)
+    print(out)
+    print(out.size())
+    print(comparador[:,0,:])
+    print(comparador[:,0,:].size())
+    loss = F.nll_loss(out, comparador[:,0,:].long())
     loss.backward()
     optimizer.step()
