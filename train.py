@@ -3,6 +3,7 @@ import torch
 from torch.nn import Linear, ReLU, Dropout
 from torch_geometric.nn import GCNConv, Sequential
 
+
 import torch.nn.functional as F
 from torch_geometric.nn import GCNConv
 import torch_geometric.data as Data
@@ -60,6 +61,7 @@ print(input_edge_tensor)
 metricas_entrada = np.reshape(metricas_entrada, (20, 9, 2))
 metricas_salida = np.reshape(metricas_salida, (20, 9, 1))
 comparador = metricas_salida[0:4]
+
 print(metricas_entrada[0].size())
 print("---------------------------------")
 print(metricas_salida[0].size())
@@ -83,6 +85,6 @@ for data in testloader:
     print(out.size())
     print(comparador[:,0,:])
     print(comparador[:,0,:].size())
-    loss = F.nll_loss(out, comparador[:,0,:].long())
+    loss = F.mse_loss(out, comparador)
     loss.backward()
     optimizer.step()
