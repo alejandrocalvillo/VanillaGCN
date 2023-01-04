@@ -1,9 +1,19 @@
+#Core Imports
 from VanillaGCN import datanetAPI, data_generator
+
+#System Import
 import os
+
+#Pytorch 
 import torch
+from torch_geometric.data import Data
+
+#Math and transforming imports
 import numpy as np
 import random
 import matplotlib.pyplot as plt
+
+#Networkx
 import networkx as nx
 from astropy.visualization import hist
 
@@ -86,3 +96,20 @@ def hg_to_data (HG):
         adjacency.append(nx.to_numpy_matrix(HG[i]))
 
     return dic_HG, dic_y_t, adjacency
+
+def data_creator(metricas_entrada, metricas_salida, edge_index):
+
+    #Transforming Adjacency Matrix(edge_index) into a shape that can be interpreted for the convolution
+    
+    adjacency_lst = []
+    for a in edge_index:
+        adj_t = a.todense()
+        edge_tensor = torch.tensor(adj_t, dtype =torch.long)
+        input_edge_tensor = edge_tensor.nonzero().t().contiguous()
+        adjacency_lst.append(input_edge_tensor)
+
+    data_edge_tensor = torch.stack(adjacency_lst)
+    data = Data(edge_index = data_edge_tensor)
+
+
+    return data
