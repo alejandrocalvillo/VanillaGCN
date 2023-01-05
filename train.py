@@ -44,7 +44,7 @@ for i in range(epoch):
         a = edge_index[j].todense()
         edge_tensor = torch.tensor(a, dtype = torch.long)
         input_edge_tensor = edge_tensor.nonzero().t().contiguous()
-        data = data_creator(metricas_entrada,metricas_salida,input_edge_tensor)
+        #data = data_creator(metricas_entrada,metricas_salida,input_edge_tensor)
 
     testloader = torch.utils.data.DataLoader(metricas_entrada, batch_size=4, shuffle=True)
 
@@ -64,3 +64,5 @@ for i in range(epoch):
         loss.backward()
         print("Loss: ", loss)
         optimizer.step()
+    
+    model.eval()

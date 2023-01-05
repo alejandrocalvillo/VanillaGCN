@@ -104,4 +104,15 @@ def data_creator(metricas_entrada, metricas_salida, edge_index):
     adjacency_lst = []
     data = Data(edge_index = edge_index)
 
+    #Input Features
+    data.x = metricas_entrada
+    
+    #Output Pred Task
+
+    data.y = metricas_salida
+
+    n_nodes = 9
+
+    
+
     return data
