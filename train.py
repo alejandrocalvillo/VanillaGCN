@@ -1,5 +1,5 @@
 #Core import
-from preparacion_dataset import preparation_dataset, hg_to_data
+from preparacion_dataset import preparation_dataset, data_creator
 
 #GCN Model
 from model import MyGCN
@@ -35,7 +35,7 @@ epoch = 200
 for i in range(epoch):
     
     print("Epoch: ", i)
-
+    data = 0
     #Take Adjacency_Matrix and Reshape it in order to fulfill specified shape
     j = 0 + i
     if i >= 19:
@@ -44,7 +44,7 @@ for i in range(epoch):
         a = edge_index[j].todense()
         edge_tensor = torch.tensor(a, dtype = torch.long)
         input_edge_tensor = edge_tensor.nonzero().t().contiguous()
-
+        data = data_creator(metricas_entrada,metricas_salida,input_edge_tensor)
 
     testloader = torch.utils.data.DataLoader(metricas_entrada, batch_size=4, shuffle=True)
 

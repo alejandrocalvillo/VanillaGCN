@@ -102,14 +102,6 @@ def data_creator(metricas_entrada, metricas_salida, edge_index):
     #Transforming Adjacency Matrix(edge_index) into a shape that can be interpreted for the convolution
     
     adjacency_lst = []
-    for a in edge_index:
-        adj_t = a.todense()
-        edge_tensor = torch.tensor(adj_t, dtype =torch.long)
-        input_edge_tensor = edge_tensor.nonzero().t().contiguous()
-        adjacency_lst.append(input_edge_tensor)
-
-    data_edge_tensor = torch.stack(adjacency_lst)
-    data = Data(edge_index = data_edge_tensor)
-
+    data = Data(edge_index = edge_index)
 
     return data
