@@ -54,13 +54,14 @@ for i in range(epoch):
     optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=5e-4)
 
     #train
-    print(comparador)
     model.train()
     for data in testloader:
         optimizer.zero_grad()
         print(f'iteracion, data.size={data.size()}')
         out = model(x = data , edge_index=input_edge_tensor)
-        loss = F.mse_loss(out, comparador)
+        prediction = model.predict(data)
+        print(prediction)
+        loss = F.mse_loss(prediction, comparador)
         loss.backward()
         print("Loss: ", loss)
         optimizer.step()
