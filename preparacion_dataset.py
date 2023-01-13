@@ -97,22 +97,16 @@ def hg_to_data (HG):
 
     return dic_HG, dic_y_t, adjacency
 
-def data_creator(metricas_entrada, metricas_salida, edge_index):
-
-    #Transforming Adjacency Matrix(edge_index) into a shape that can be interpreted for the convolution
-    
-    adjacency_lst = []
-    data = Data(edge_index = edge_index)
-
-    #Input Features
-    data.x = metricas_entrada
-    
-    #Output Pred Task
-
-    data.y = metricas_salida
-
-    n_nodes = 9
-
-    
-
+def prepare_data(input_data):
+    """
+    Prepare data for the GCN model
+    Args:
+        input_data: The input data for the model
+    Returns:
+        data: The data ready to be fed to the GCN model
+    """
+    x = torch.tensor(input_data['x'], dtype=torch.float)
+    edge_index = torch.tensor(input_data['edge_index'], dtype=torch.long)
+    y = torch.tensor(input_data['y'], dtype=torch.long)
+    data = Data(x=x, edge_index=edge_index, y=y)
     return data

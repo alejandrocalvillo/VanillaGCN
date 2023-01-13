@@ -209,4 +209,5 @@ class MyGCN(torch.nn.Module):
         x = F.dropout(x, training=self.training)
         x = self.conv2(x, edge_index)
 
-        return F.log_softmax(x, dim=1)
+        return x
+        # F.log_softmax(x, dim=1)
