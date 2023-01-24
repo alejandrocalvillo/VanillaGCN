@@ -49,7 +49,7 @@ for i in range(epoch):
         #data = data_creator(metricas_entrada,metricas_salida,input_edge_tensor)
 
     testloader = torch.utils.data.DataLoader(metricas_entrada, batch_size=4, shuffle=True)
-    comparador = torch.utils.data.DataLoader(metricas_salida, batch_size=4, shuffle=True) 
+    comparador = torch.utils.data.DataLoader(metricas_salida, batch_size=1, shuffle=True) 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model = MyGCN().to(device)
 
