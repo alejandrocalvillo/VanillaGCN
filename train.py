@@ -25,7 +25,7 @@ metricas_entrada, metricas_salida,edge_index = preparation_dataset(src_path)
 #Reshape data in order to fulfill specified shape
 metricas_entrada = np.reshape(metricas_entrada, (20, 9, 2))
 metricas_salida = np.reshape(metricas_salida, (20, 9, 1))
-comparador = metricas_salida[0:4]
+#comparador = metricas_salida[0:4]
 
 
 #Select number of epoch
@@ -49,7 +49,7 @@ for i in range(epoch):
         #data = data_creator(metricas_entrada,metricas_salida,input_edge_tensor)
 
     testloader = torch.utils.data.DataLoader(metricas_entrada, batch_size=4, shuffle=True)
-
+    comparador = torch.utils.data.DataLoader(metricas_salida, batch_size=4, shuffle=True) 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model = MyGCN().to(device)
 
