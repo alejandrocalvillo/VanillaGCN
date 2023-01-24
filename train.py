@@ -30,7 +30,7 @@ metricas_salida = np.reshape(metricas_salida, (20, 9, 1))
 
 #Select number of epoch
 
-epoch = 200
+epoch = 888888
 
 for i in range(epoch):
     
@@ -50,7 +50,7 @@ for i in range(epoch):
         edge_tensor = torch.tensor(a, dtype = torch.long)
         input_edge_tensor = edge_tensor.nonzero().t().contiguous()
 
-    #For the Backward Propagation
+    #For the Backward Propagation and RMSE not to be compared with the same one 
     coor1 = j
     coor2 = j+4
 
