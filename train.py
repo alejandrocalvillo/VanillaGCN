@@ -30,13 +30,15 @@ comparador = metricas_salida[0:4]
 
 #Select number of epoch
 
-epoch = 200
+epoch = 888888
 
 for i in range(epoch):
     
     print("Epoch: ", i)
     data = 0
     #Take Adjacency_Matrix and Reshape it in order to fulfill specified shape
+
+    #Podria hacer un random de 1 a 20 
     j = 0 + i
     if i >= 19:
         j = 0
@@ -60,7 +62,7 @@ for i in range(epoch):
         print(f'iteracion, data.size={data.size()}')
         out = model(x = data , edge_index=input_edge_tensor)
         prediction = model.forward(data, input_edge_tensor)
-        print(prediction)
+        #print(prediction)
         loss = torch.sqrt(F.mse_loss(prediction, comparador))
         print("Loss: ", loss)
         loss.backward()
