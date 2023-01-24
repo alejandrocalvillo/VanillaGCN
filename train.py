@@ -1,5 +1,5 @@
 #Core import
-from preparacion_dataset import preparation_dataset, data_creator
+from preparacion_dataset import preparation_dataset
 
 #GCN Model
 from model import MyGCN
