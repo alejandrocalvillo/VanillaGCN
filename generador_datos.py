@@ -131,7 +131,7 @@ We generate the files using the previously defined functions. This code will pro
 """
 max_avg_lbda = 1000
 with open (simulation_file,"w") as fd:
-    for net_size in range (9): #Antes [6,11] ahora 9
+    for net_size in range (9,8): #Antes [6,11] ahora 9
         #Generate graph
         graph_file = os.path.join(graphs_path,"graph_{}.txt".format(net_size))
         G = generate_topology(net_size, os.path.join(training_dataset_path,graph_file))
