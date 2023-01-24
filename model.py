@@ -211,5 +211,5 @@ class MyGCN(torch.nn.Module):
         x = F.relu(x)
         x = F.dropout(x, training=self.training)
 
-        return F.log_softmax(x, dim=1)
+        return x
         # F.log_softmax(x, dim=1)
