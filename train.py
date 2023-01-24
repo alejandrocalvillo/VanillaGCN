@@ -59,7 +59,7 @@ for i in range(epoch):
     model.train()
     for data in testloader:
         optimizer.zero_grad()
-        print(f'iteracion, data.size={data.size()}')
+        print(f'iteracion: {epoch}, data.size={data.size()}')
         out = model(x = data , edge_index=input_edge_tensor)
         prediction = model.forward(data, input_edge_tensor)
         #print(prediction)
