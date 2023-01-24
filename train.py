@@ -62,8 +62,8 @@ for i in range(epoch):
         prediction = model.forward(data, input_edge_tensor)
         print(prediction)
         loss = F.mse_loss(prediction, comparador)
-        loss.backward()
         print("Loss: ", loss)
+        loss.backward()
         optimizer.step()
     
     model.eval()
