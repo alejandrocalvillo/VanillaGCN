@@ -30,7 +30,7 @@ metricas_salida = np.reshape(metricas_salida, (20, 9, 1))
 
 #Select number of epoch
 
-epoch = 888888
+epoch = 200
 
 for i in range(epoch):
     
@@ -40,16 +40,29 @@ for i in range(epoch):
 
     #Podria hacer un random de 1 a 20 
     j = 0 + i
-    if i >= 19:
+    if j >= 19:
         j = 0
+        a = edge_index[j].todense()
+        edge_tensor = torch.tensor(a, dtype = torch.long)
+        input_edge_tensor = edge_tensor.nonzero().t().contiguous()
     else:
         a = edge_index[j].todense()
         edge_tensor = torch.tensor(a, dtype = torch.long)
         input_edge_tensor = edge_tensor.nonzero().t().contiguous()
+
+    #For the Backward Propagation
+    coor1 = j
+    coor2 = j+4
+
+    if coor2 >= 19:
+        coor1 = 0
+        coor2 = 4
+        comparador = metricas_salida[coor1:coor2]
+    else:
+        comparador = metricas_salida[coor1:coor2]
         #data = data_creator(metricas_entrada,metricas_salida,input_edge_tensor)
 
     testloader = torch.utils.data.DataLoader(metricas_entrada, batch_size=4, shuffle=True)
-    comparador = torch.utils.data.DataLoader(metricas_salida, batch_size=1, shuffle=True) 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model = MyGCN().to(device)
 
