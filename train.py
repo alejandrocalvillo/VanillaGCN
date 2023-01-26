@@ -37,6 +37,20 @@ labels = np.reshape(labels, (20, 9, 1))
 # Normaliza datos de entrada y de salida
 # https://pytorch.org/docs/stable/generated/torch.nn.functional.normalize.html#torch-nn-functional-normalize
 
+class SimpleCustomBatch:
+    def __init__(self, data):
+        self.inp = data.x
+        self.tgt = data.y
+
+    # custom memory pinning method on custom type
+    def pin_memory(self):
+        self.inp = self.inp.pin_memory()
+        self.tgt = self.tgt.pin_memory()
+        return self
+
+def collate_wrapper(batch):
+    return SimpleCustomBatch(batch)
+
 data = prepare_data(input=input, edge_index=edge_index, labels=labels)
 dataset = torch.utils.data.TensorDataset(data.x, data.y)
 
@@ -57,7 +71,7 @@ for i in range(epoch):
     
     print("Epoch: ", i+1)
 
-    testloader = torch.utils.data.DataLoader(dataset, batch_size=4, shuffle=True)
+    testloader = torch.utils.data.DataLoader(dataset, batch_size=4, collate_fn= collate_wrapper, shuffle=True)
 
     for j, data_in in enumerate(testloader):
         optimizer.zero_grad()
