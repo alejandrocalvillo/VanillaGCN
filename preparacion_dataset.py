@@ -129,4 +129,4 @@ def plot_mse_epoch(epoch, mse_loss):
     """
     fig, ax = plt.subplots()
     plt.plot(range(epoch),mse_loss, color='red', marker='o', label= "PTS durante la temporada")
-    plt.savefig('Epoch'+epoch+'.png')
+    plt.savefig('Epoch.png')
