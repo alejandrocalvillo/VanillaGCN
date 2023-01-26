@@ -23,8 +23,16 @@ CHECKPOINT_PATH = f"{data_folder_name}/checkpoint1"
 metricas_entrada, metricas_salida,edge_index = preparation_dataset(src_path)
 
 #Reshape data in order to fulfill specified shape
-metricas_entrada = np.reshape(metricas_entrada, (20, 9, 2))
-metricas_salida = np.reshape(metricas_entrada[:,:,2], (20, 9, 1))
+input = metricas_entrada[:,:,:2]
+labels =metricas_entrada[:,:,2]
+
+print(input)
+print(input.shape)
+
+print(labels)
+print(labels.shape)
+metricas_entrada = np.reshape(input, (20, 9, 2))
+metricas_salida = np.reshape(labels, (20, 9, 1))
 #comparador = metricas_salida[0:4]
 
 
