@@ -54,16 +54,10 @@ optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
 for i in range(epoch):
     
     print("Epoch: ", i+1)
-    #Take Adjacency_Matrix and Reshape it in order to fulfill specified shape
-
-    #Podria hacer un random de 1 a 20 
-    # JORGE: update the j, it should only be a single graph
-    # otherwise, the adjacenecy matrix changes and the learning doesn't hold
 
     testloader = torch.utils.data.DataLoader(data, batch_size=4, shuffle=True)
 
-
-    for data_in in enumerate(testloader):
+    for j, data_in in enumerate(testloader):
         optimizer.zero_grad()
         print(f'iteracion: {i}')
         out = model(x = data_in.x , edge_index=data_in.edge_index)
