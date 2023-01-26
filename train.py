@@ -69,7 +69,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = MyGCN().to(device)
 model.train(True)
 
-optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+optimizer = torch.optim.Adam(model.parameters(), lr=1e-6)
 
 for i in range(epoch):
     
@@ -82,11 +82,6 @@ for i in range(epoch):
         print(f'iteracion: {j}')
         out = model(x = data_in.inp , edge_index=data.edge_index)
         loss = F.mse_loss(out, data_in.tgt)
-
-        # prediction = model.forward(data, input_edge_tensor)
-        #print(prediction)
-        #loss = torch.sqrt(F.mse_loss(prediction, comparador))
-        # loss = F.mse_loss(prediction, comparador)
 
         print("Loss: ", loss)
         loss.backward()
