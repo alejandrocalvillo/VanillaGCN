@@ -97,11 +97,13 @@ def hg_to_data (HG):
 
     return dic_HG, dic_y_t, adjacency
 
-def prepare_data(input_data):
+def prepare_data(input, edge_index, labels):
     """
     Prepare data for the GCN model
     Args:
-        input_data: The input data for the model
+        input: Input metrics for the model
+        edge_index: Adjacency Matrix in the requiered form for GCNConv
+        labels: Output data to compare
     Returns:
         data: The data ready to be fed to the GCN model
     """
