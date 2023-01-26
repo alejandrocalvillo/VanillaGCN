@@ -37,6 +37,10 @@ labels = np.reshape(labels, (20, 9, 1))
 # Normaliza datos de entrada y de salida
 # https://pytorch.org/docs/stable/generated/torch.nn.functional.normalize.html#torch-nn-functional-normalize
 
+
+
+data = prepare_data(input=input, edge_index=edge_index, labels=labels)
+
 class SimpleCustomBatch:
     def __init__(self, data):
         self.inp = data.x
@@ -50,8 +54,7 @@ class SimpleCustomBatch:
 
 def collate_wrapper(batch):
     return SimpleCustomBatch(batch)
-
-data = prepare_data(input=input, edge_index=edge_index, labels=labels)
+    
 dataset = torch.utils.data.TensorDataset(data.x, data.y)
 
 
