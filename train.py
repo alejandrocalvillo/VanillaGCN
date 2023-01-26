@@ -27,7 +27,9 @@ metricas_entrada = np.reshape(metricas_entrada, (20, 9, 2))
 metricas_salida = np.reshape(metricas_salida, (20, 9, 1))
 #comparador = metricas_salida[0:4]
 
-print(metricas_salida[0])
+metricas_entrada.append(metricas_salida)
+
+print(metricas_entrada)
 
 # Normaliza datos de entrada y de salida
 # https://pytorch.org/docs/stable/generated/torch.nn.functional.normalize.html#torch-nn-functional-normalize
