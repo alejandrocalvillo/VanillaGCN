@@ -23,8 +23,8 @@ CHECKPOINT_PATH = f"{data_folder_name}/checkpoint1"
 metricas_entrada, metricas_salida,edge_index = preparation_dataset(src_path)
 
 #Reshape data in order to fulfill specified shape
-input = metricas_entrada[:,:,:2]
-labels =metricas_entrada[:,:,2]
+input = metricas_entrada[:,:2,:]
+labels =metricas_entrada[:,2,:]
 
 print(input)
 print(input.shape)
