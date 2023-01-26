@@ -63,11 +63,11 @@ for i in range(epoch):
     testloader = torch.utils.data.DataLoader(data, batch_size=4, shuffle=True)
 
 
-    for data in enumerate(testloader):
+    for data_in in enumerate(testloader):
         optimizer.zero_grad()
-        print(f'iteracion: {i}, data.size={data.size()}')
-        out = model(x = data.x , edge_index=data.edge_index)
-        loss = F.mse_loss(out, data.y)
+        print(f'iteracion: {i}')
+        out = model(x = data_in.x , edge_index=data_in.edge_index)
+        loss = F.mse_loss(out, data_in.y)
 
         # prediction = model.forward(data, input_edge_tensor)
         #print(prediction)
