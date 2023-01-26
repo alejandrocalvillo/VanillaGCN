@@ -63,7 +63,7 @@ for i in range(epoch):
     testloader = torch.utils.data.DataLoader(data, batch_size=4, shuffle=True)
 
 
-    for data in testloader:
+    for data in enumerate(testloader):
         optimizer.zero_grad()
         print(f'iteracion: {i}, data.size={data.size()}')
         out = model(x = data.x , edge_index=data.edge_index)
