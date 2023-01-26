@@ -16,6 +16,18 @@ import numpy as np
 
 #Load data from BCN-GNN-CHALLENGE
 
+from torch.utils.data import Dataset
+
+class PandasDataset(Dataset):
+    def __init__(self, dataframe):
+        self.dataframe = dataframe
+
+    def __len__(self):
+        return len(self.dataframe)
+
+    def __getitem__(self, index):
+        return self.dataframe.iloc[index]
+
 data_folder_name = "training"
 src_path = f"{data_folder_name}/results/dataset1/"
 data_folder_name = "checkpoint"
@@ -41,7 +53,7 @@ labels = np.reshape(labels, (20, 9, 1))
 data = prepare_data(input=input, edge_index=edge_index, labels=labels)
 #Select number of epoch
 epoch = 100
-
+dataset = PandasDataset(data)
 
 # JORGE: fíjate en un solo caso, es decir, no vayas cambiando de grafos
 
@@ -55,7 +67,7 @@ for i in range(epoch):
     
     print("Epoch: ", i+1)
 
-    testloader = torch.utils.data.DataLoader(data, batch_size=4, shuffle=True)
+    testloader = torch.utils.data.DataLoader(dataset, batch_size=4, shuffle=True)
 
     for j, data_in in enumerate(testloader):
         optimizer.zero_grad()
