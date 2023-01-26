@@ -101,14 +101,17 @@ def prepare_data(input, edge_index, labels):
     """
     Prepare data for the GCN model
     Args:
-        input: Input metrics for the model
-        edge_index: Adjacency Matrix in the requiered form for GCNConv
-        labels: Output data to compare
+        input: Input metrics for the model (Tensor)
+        edge_index: All Adjacency Matrices in the requiered form for GCNConv (Tensor)
+        labels: Output data to compare (Tensor)
     Returns:
         data: The data ready to be fed to the GCN model
     """
-    x = torch.tensor(input_data['x'], dtype=torch.float)
-    edge_index = torch.tensor(input_data['edge_index'], dtype=torch.long)
-    y = torch.tensor(input_data['y'], dtype=torch.long)
-    data = Data(x=x, edge_index=edge_index, y=y)
+    #For the case of a GCNConv, we will only use one topology
+    a = edge_index[0].todense()
+    edge_tensor = torch.tensor(a, dtype = torch.long)
+    input_edge_tensor = edge_tensor.nonzero().t().contiguous()
+    
+    data = Data(x=input, edge_index=input_edge_tensor, y=labels)
+
     return data
