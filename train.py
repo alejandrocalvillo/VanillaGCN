@@ -10,6 +10,9 @@ import torch
 #Pytorch Functional
 import torch.nn.functional as F
 
+#Pytorch Utils
+
+import torch.utils.data.TensorDataset as TensorDataset
 
 #Numpy
 import numpy as np
@@ -39,6 +42,9 @@ labels = np.reshape(labels, (20, 9, 1))
 # https://pytorch.org/docs/stable/generated/torch.nn.functional.normalize.html#torch-nn-functional-normalize
 
 data = prepare_data(input=input, edge_index=edge_index, labels=labels)
+dataset = TensorDataset(data.x, data.y)
+
+
 #Select number of epoch
 epoch = 100
 
@@ -55,13 +61,13 @@ for i in range(epoch):
     
     print("Epoch: ", i+1)
 
-    testloader = torch.utils.data.DataLoader(data, batch_size=4, shuffle=True)
+    testloader = torch.utils.data.DataLoader(dataset, batch_size=4, shuffle=True)
 
     for j, data_in in enumerate(testloader):
         optimizer.zero_grad()
         print(f'iteracion: {j}')
-        out = model(x = data_in.x , edge_index=data_in.edge_index)
-        loss = F.mse_loss(out, data_in.y)
+        out = model(x = data_in.inp , edge_index=data.edge_index)
+        loss = F.mse_loss(out, data_in.tgt)
 
         # prediction = model.forward(data, input_edge_tensor)
         #print(prediction)
