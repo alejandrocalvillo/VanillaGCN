@@ -29,6 +29,8 @@ metricas_salida = np.reshape(metricas_salida[:,:,2], (20, 9, 1))
 
 
 print(metricas_entrada.shape)
+print(metricas_salida)
+print(metricas_salida.shape)
 
 # Normaliza datos de entrada y de salida
 # https://pytorch.org/docs/stable/generated/torch.nn.functional.normalize.html#torch-nn-functional-normalize
