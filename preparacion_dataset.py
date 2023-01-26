@@ -17,6 +17,10 @@ import matplotlib.pyplot as plt
 import networkx as nx
 from astropy.visualization import hist
 
+#MatPlotLib
+import matplotlib.pyplot as plt
+
+
 def preparation_dataset(src_path):
 
     # Range of the maximum average lambda | traffic intensity used
@@ -115,3 +119,14 @@ def prepare_data(input, edge_index, labels):
     data = Data(x=input, edge_index=input_edge_tensor, y=labels)
 
     return data
+
+def plot_mse_epoch(epoch, mse_loss):
+    """
+    Plot MSExEpoch
+    Args:
+        epoch: number of epoch
+        mse_loss: The MSE values to be plotted
+    """
+    fig, ax = plt.subplots()
+    plt.plot(range(epoch),mse_loss, color='red', marker='o', label= "PTS durante la temporada")
+    plt.savefig('Epoch'+epoch+'.png')

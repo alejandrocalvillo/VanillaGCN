@@ -1,5 +1,5 @@
 #Core import
-from preparacion_dataset import preparation_dataset, prepare_data
+from preparacion_dataset import preparation_dataset, prepare_data, plot_mse_epoch
 
 #GCN Model
 from model import MyGCN
@@ -70,7 +70,7 @@ model = MyGCN().to(device)
 model.train(True)
 
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-6)
-
+loss_ar = []
 for i in range(epoch):
     
     print("Epoch: ", i+1)
@@ -82,9 +82,10 @@ for i in range(epoch):
         print(f'iteracion: {j}')
         out = model(x = data_in.inp , edge_index=data.edge_index)
         loss = F.mse_loss(out, data_in.tgt)
-
+        loss_ar.append(loss)
         print("Loss: ", loss)
         loss.backward()
         optimizer.step()
-    
+
+plot_mse_epoch(epoch, loss_ar)    
     #model.eval()
