@@ -70,6 +70,7 @@ model = MyGCN().to(device)
 model.train(True)
 
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-6)
+iterations = 0
 loss_ar = []
 for i in range(epoch):
     
@@ -79,6 +80,7 @@ for i in range(epoch):
 
     for j, data_in in enumerate(testloader):
         optimizer.zero_grad()
+        iterations = j
         print(f'iteracion: {j}')
         out = model(x = data_in.inp , edge_index=data.edge_index)
         loss = F.mse_loss(out, data_in.tgt)
@@ -88,5 +90,5 @@ for i in range(epoch):
         loss.backward()
         optimizer.step()
 
-plot_mse_epoch(epoch, loss_ar)    
+plot_mse_epoch(iterations, loss_ar)    
     #model.eval()
