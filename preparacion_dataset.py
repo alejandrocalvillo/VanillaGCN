@@ -112,6 +112,6 @@ def prepare_data(input, edge_index, labels):
     edge_tensor = torch.tensor(a, dtype = torch.long)
     input_edge_tensor = edge_tensor.nonzero().t().contiguous()
     
-    data = Data(x=input, edge_index=input_edge_tensor, y=labels)
+    data = Data(x=input, edge_index=input_edge_tensor, y=labels.to_numpy())
 
     return data
