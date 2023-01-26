@@ -60,7 +60,7 @@ def preparation_dataset(src_path):
             pkts_gen_lst.append(cumulativePkts_gen)
 
         #InputData
-        aux_in_lst = [delays_lst,jitter_lst]
+        aux_in_lst = [delays_lst,jitter_lst, pkts_gen_lst]
         metricas_in = np.asarray(aux_in_lst)
         input_to_tensor = torch.Tensor(metricas_in)
         in_data.append(input_to_tensor)
