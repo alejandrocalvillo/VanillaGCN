@@ -80,11 +80,11 @@ for i in range(epoch):
 
     for j, data_in in enumerate(testloader):
         optimizer.zero_grad()
-        iterations = j
+        iterations = iterations + 1
         print(f'iteracion: {j}')
         out = model(x = data_in.inp , edge_index=data.edge_index)
         loss = F.mse_loss(out, data_in.tgt)
-        mse_loss = loss.tensor.detach().numpy()
+        mse_loss = loss.detach().numpy()
         loss_ar.append(mse_loss)
         print("Loss: ", loss)
         loss.backward()
