@@ -128,5 +128,9 @@ def plot_mse_epoch(epoch, mse_loss):
         mse_loss: The MSE values to be plotted
     """
     fig, ax = plt.subplots()
-    plt.plot(range(epoch),mse_loss, color='red', marker='o', label= "PTS durante la temporada")
+
+    plt.title("MSE per Iteration")
+    plt.legend()
+    plt.plot(range(epoch),mse_loss, color='red', marker='.')
+    
     plt.savefig('Epoch.png')
