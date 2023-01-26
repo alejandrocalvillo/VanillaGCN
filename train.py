@@ -10,10 +10,6 @@ import torch
 #Pytorch Functional
 import torch.nn.functional as F
 
-#Pytorch Utils
-
-import torch.utils.data.TensorDataset as TensorDataset
-
 #Numpy
 import numpy as np
 
@@ -42,7 +38,7 @@ labels = np.reshape(labels, (20, 9, 1))
 # https://pytorch.org/docs/stable/generated/torch.nn.functional.normalize.html#torch-nn-functional-normalize
 
 data = prepare_data(input=input, edge_index=edge_index, labels=labels)
-dataset = TensorDataset(data.x, data.y)
+dataset = torch.utils.data.TensorDataset(data.x, data.y)
 
 
 #Select number of epoch
