@@ -60,7 +60,7 @@ dataset = torch.utils.data.TensorDataset(data.x, data.y)
 
 
 #Select number of epoch
-epoch = 0
+epoch = 1000
 
 
 # JORGE: fíjate en un solo caso, es decir, no vayas cambiando de grafos
