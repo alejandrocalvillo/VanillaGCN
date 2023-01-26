@@ -43,6 +43,7 @@ data = prepare_data(input=input, edge_index=edge_index, labels=labels)
 
 class SimpleCustomBatch:
     def __init__(self, data):
+        data = prepare_data(input=input, edge_index=edge_index, labels=labels)
         self.inp = data.x
         self.tgt = data.y
 
@@ -54,7 +55,7 @@ class SimpleCustomBatch:
 
 def collate_wrapper(batch):
     return SimpleCustomBatch(batch)
-    
+
 dataset = torch.utils.data.TensorDataset(data.x, data.y)
 
 
