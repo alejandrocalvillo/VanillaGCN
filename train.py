@@ -46,11 +46,11 @@ input_test = metricas_entrada_test[:,:2,:] #test
 labels_test =metricas_entrada_test[:,2,:] #test
 
 #Reshape data in order to fulfill specified shape
-input = np.reshape(input, (12, 9, 2))
-labels = np.reshape(labels, (12, 9, 1))
+input = np.reshape(input, (8, 9, 2))
+labels = np.reshape(labels, (8, 9, 1))
 
-input_test = np.reshape(input_test, (8, 9, 2))
-labels_test = np.reshape(labels_test, (8, 9, 1))
+input_test = np.reshape(input_test, (12, 9, 2))
+labels_test = np.reshape(labels_test, (12, 9, 1))
 
 #Prepare the dataset
 data = prepare_data(input=input, edge_index=edge_index, labels=labels)
