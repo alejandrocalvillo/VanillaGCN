@@ -77,7 +77,7 @@ for epoch in epochs:
         loss_ar = []
         for i in range(epoch):
             
-            print("Epoch: ", i+1)
+#            print("Epoch: ", i+1)
 
             testloader = torch.utils.data.DataLoader(dataset, batch_size=4, collate_fn= collate_wrapper, shuffle=True)
 
