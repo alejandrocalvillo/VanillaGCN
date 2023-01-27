@@ -17,10 +17,12 @@ import numpy as np
 
 data_folder_name = "training"
 src_path = f"{data_folder_name}/results/dataset1/"
-data_folder_name = "checkpoint"
-CHECKPOINT_PATH = f"{data_folder_name}/checkpoint1"
+# data_folder_name = "checkpoint"
+# CHECKPOINT_PATH = f"{data_folder_name}/checkpoint1"
+dataval_folder_name = "validation"
+src_path_val =f"{dataval_folder_name}/50/"
 metricas_entrada, metricas_salida,edge_index = preparation_dataset(src_path)
-
+metricasval_entrada, metricasval_salida, edgeval_index = preparation_dataset(src_path_val)
 # Normalize data
 # https://pytorch.org/docs/stable/generated/torch.nn.functional.normalize.html#torch-nn-functional-normalize
 
