@@ -25,7 +25,7 @@ src_path = f"{data_folder_name}/results/dataset1/"
 # CHECKPOINT_PATH = f"{data_folder_name}/checkpoint1"
 
 #Load the data
-metricas_entrada, metricas_salida,edge_index = preparation_dataset(src_path)
+metricas_entrada,edge_index = preparation_dataset(src_path)
 
 # Normalize data
 # https://pytorch.org/docs/stable/generated/torch.nn.functional.normalize.html#torch-nn-functional-normalize
