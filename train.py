@@ -35,6 +35,9 @@ metricas_entrada = F.normalize(metricas_entrada)
 #Dividie all our metrics into train and test
 metricas_entrada_test, metricas_entrada_train = train_test_split(metricas_entrada, test_size = 0.4)
 
+print(metricas_entrada_test.shape)
+
+print(metricas_entrada_train.shape)
 #Select features to predict
 input = metricas_entrada_train[:,:2,:] #train
 labels =metricas_entrada_train[:,2,:] #train
