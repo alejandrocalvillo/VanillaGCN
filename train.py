@@ -95,4 +95,6 @@ for i in range(epoch):
         loss.backward()
         optimizer.step()
 
+state_dict = model.state_dict()
+torch.save(state_dict, 'weigths/model_weights.pt')
 plot_mse_epoch(iterations, loss_ar)
