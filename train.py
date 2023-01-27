@@ -36,13 +36,12 @@ metricas_entrada = F.normalize(metricas_entrada)
 input = metricas_entrada[:,:2,:] #train
 labels =metricas_entrada[:,2,:] #train
 
+#Reshape data in order to fulfill specified shape
+input = np.reshape(input, (20, 9, 2))
+labels = np.reshape(labels, (20, 9, 1))
+
 print(input)
 print(labels)
-
-#Reshape data in order to fulfill specified shape
-input = np.reshape(input, (8, 9, 2))
-labels = np.reshape(labels, (8, 9, 1))
-
 #Prepare the dataset
 data = prepare_data(input=input, edge_index=edge_index, labels=labels)
 
