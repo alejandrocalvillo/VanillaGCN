@@ -112,7 +112,7 @@ def prepare_data(input, edge_index, labels):
 
     return data
 
-def plot_mse_epoch(epoch, mse_loss):
+def plot_mse_epoch(iterations, mse_loss, epoch, lr):
     """
     Plot MSExEpoch
     Args:
@@ -122,5 +122,8 @@ def plot_mse_epoch(epoch, mse_loss):
     fig, ax = plt.subplots()
 
     plt.title("MSE per Iteration")
-    plt.plot(range(epoch),mse_loss, color='red', marker='.') 
-    plt.savefig('mse_loss_plots/Iterations'+str(epoch)+'.png')
+    plt.xlabel("Iterations")
+    plt.ylabel("MSE")
+    plt.text('Epoch:'+str(epoch)+' Lr:'+str(lr))
+    plt.plot(range(iterations),mse_loss, color='red', marker='.') 
+    plt.savefig('mse_loss_plots/Iterations'+str(iterations)+'lr'+str(lr)+'NumEpoch'+str(epoch)+'.png')
