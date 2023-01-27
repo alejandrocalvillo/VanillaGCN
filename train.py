@@ -13,12 +13,9 @@ import torch.nn.functional as F
 #Numpy
 import numpy as np
 
-#Sklearn
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
+
 
 #Load data from BCN-GNN-CHALLENGE
-
 data_folder_name = "training"
 src_path = f"{data_folder_name}/results/dataset1/"
 # data_folder_name = "checkpoint"
@@ -40,8 +37,6 @@ labels =metricas_entrada[:,2,:] #train
 input = np.reshape(input, (20, 9, 2))
 labels = np.reshape(labels, (20, 9, 1))
 
-print(input)
-print(labels)
 #Prepare the dataset
 data = prepare_data(input=input, edge_index=edge_index, labels=labels)
 
@@ -64,37 +59,40 @@ def collate_wrapper(batch):
 dataset = torch.utils.data.TensorDataset(data.x, data.y)
 
 
-#Select number of epoch
-epoch = 100
-lr = 1e-6
-
-# JORGE: fíjate en un solo caso, es decir, no vayas cambiando de grafos
+#Select number of epoch and learning rate
+epochs = [100, 500, 1000, 10000, 100000]
+lrs = [10, 1, 0.1, 0.001, 1e-3, 1e-6, 1e-9]
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-model = MyGCN().to(device)
-model.train(True)
+#The goal is to demostrate that the model is learning, to do so let's take an array of epochs(epochs) and learning rates (lrs)
 
-optimizer = torch.optim.Adam(model.parameters(), lr=lr)
-iterations = 0
-loss_ar = []
-for i in range(epoch):
-    
-    print("Epoch: ", i+1)
+for epoch in epochs:
+    for lr in lrs:
+        
+        model = MyGCN().to(device)
+        model.train(True)
 
-    testloader = torch.utils.data.DataLoader(dataset, batch_size=4, collate_fn= collate_wrapper, shuffle=True)
+        optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+        iterations = 0
+        loss_ar = []
+        for i in range(epoch):
+            
+            print("Epoch: ", i+1)
 
-    for j, data_in in enumerate(testloader):
-        optimizer.zero_grad()
-        iterations = iterations + 1
-        print(f'iteracion: {j}')
-        out = model(x = data_in.inp , edge_index=data.edge_index)
-        loss = F.mse_loss(out, data_in.tgt)
-        mse_loss = loss.detach().numpy()
-        loss_ar.append(mse_loss)
-        print("Loss: ", loss)
-        loss.backward()
-        optimizer.step()
+            testloader = torch.utils.data.DataLoader(dataset, batch_size=4, collate_fn= collate_wrapper, shuffle=True)
 
-state_dict = model.state_dict()
-torch.save(state_dict, 'weigths/model_weights.pt')
-plot_mse_epoch(iterations, loss_ar, epoch, lr)
+            for j, data_in in enumerate(testloader):
+                optimizer.zero_grad()
+                iterations = iterations + 1
+                #print(f'iteracion: {j}')
+                out = model(x = data_in.inp , edge_index=data.edge_index)
+                loss = F.mse_loss(out, data_in.tgt)
+                mse_loss = loss.detach().numpy()
+                loss_ar.append(mse_loss)
+                #print("Loss: ", loss)
+                loss.backward()
+                optimizer.step()
+
+        state_dict = model.state_dict()
+        torch.save(state_dict, 'weigths/model_weights'+str(epoch)+str(lr)+'.pt')
+        plot_mse_epoch(iterations, loss_ar, epoch, lr)
