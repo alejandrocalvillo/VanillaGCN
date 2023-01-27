@@ -32,29 +32,20 @@ metricas_entrada,edge_index = preparation_dataset(src_path)
 
 metricas_entrada = F.normalize(metricas_entrada)
 
-#Dividie all our metrics into train and test
-metricas_entrada_test, metricas_entrada_train = train_test_split(metricas_entrada, test_size = 0.4)
-
-print(metricas_entrada_test.shape)
-
-print(metricas_entrada_train.shape)
 #Select features to predict
-input = metricas_entrada_train[:,:2,:] #train
-labels =metricas_entrada_train[:,2,:] #train
+input = metricas_entrada[:,:2,:] #train
+labels =metricas_entrada[:,2,:] #train
 
-input_test = metricas_entrada_test[:,:2,:] #test
-labels_test =metricas_entrada_test[:,2,:] #test
+print(input)
+print(labels)
 
 #Reshape data in order to fulfill specified shape
 input = np.reshape(input, (8, 9, 2))
 labels = np.reshape(labels, (8, 9, 1))
 
-input_test = np.reshape(input_test, (12, 9, 2))
-labels_test = np.reshape(labels_test, (12, 9, 1))
-
 #Prepare the dataset
 data = prepare_data(input=input, edge_index=edge_index, labels=labels)
-data_test = prepare_data(input=input_test, edge_index=edge_index, labels=labels_test)
+
 
 class SimpleCustomBatch:
     def __init__(self, data):
@@ -105,18 +96,4 @@ for i in range(epoch):
         loss.backward()
         optimizer.step()
 
-plot_mse_epoch(iterations, loss_ar)    
-    
-    
-model.eval(True)
-with torch.no_grad():
-    pred = model(x = data.x, edge_index = data.edge_index)
-    predictions = pred.detach().numpy()
-
-    # Convertir las etiquetas de prueba a numpy
-    labels = data.y.numpy()
-
-    # Calcular la precisión
-    accuracy = accuracy_score(labels, predictions)
-
-    print("Accuracy: {:.2f}%".format(accuracy * 100))
+plot_mse_epoch(iterations, loss_ar)
