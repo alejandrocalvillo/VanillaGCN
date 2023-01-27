@@ -69,21 +69,13 @@ def preparation_dataset(src_path):
         input_to_tensor = torch.Tensor(metricas_in)
         in_data.append(input_to_tensor)
 
-        #OutputData
-
-        aux_out_lst = [pkts_gen_lst]
-        metricas_out = np.asarray(aux_out_lst)
-        output_to_tensor = torch.Tensor(metricas_out)
-        out_data.append(output_to_tensor)
-
         #Adjacency Matrix
         G = nx.DiGraph(sample.get_topology_object())
         edge_index.append(nx.adjacency_matrix(G))
 
     in_data_tensor = torch.stack(in_data)
-    out_data_tensor = torch.stack(out_data)
 
-    return in_data_tensor, out_data_tensor, edge_index
+    return in_data_tensor, edge_index
     
 def hg_to_data (HG):
     dic_HG = []

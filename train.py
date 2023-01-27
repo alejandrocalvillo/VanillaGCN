@@ -13,35 +13,45 @@ import torch.nn.functional as F
 #Numpy
 import numpy as np
 
+#Sklearn
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
 #Load data from BCN-GNN-CHALLENGE
 
 data_folder_name = "training"
 src_path = f"{data_folder_name}/results/dataset1/"
 # data_folder_name = "checkpoint"
 # CHECKPOINT_PATH = f"{data_folder_name}/checkpoint1"
-dataval_folder_name = "validation"
-src_path_val =f"{dataval_folder_name}/50/"
+
+#Load the data
 metricas_entrada, metricas_salida,edge_index = preparation_dataset(src_path)
-metricasval_entrada, metricasval_salida, edgeval_index = preparation_dataset(src_path_val)
+
 # Normalize data
 # https://pytorch.org/docs/stable/generated/torch.nn.functional.normalize.html#torch-nn-functional-normalize
 
 metricas_entrada = F.normalize(metricas_entrada)
 
-#Reshape data in order to fulfill specified shape
-input = metricas_entrada[:,:2,:]
-labels =metricas_entrada[:,2,:]
+#Dividie all our metrics into train and test
+metricas_entrada_test, metricas_entrada_train = train_test_split(metricas_entrada, test_size = 0.4)
 
+#Select features to predict
+input = metricas_entrada_train[:,:2,:] #train
+labels =metricas_entrada_train[:,2,:] #train
+
+input_test = metricas_entrada_test[:,:2,:] #test
+labels_test =metricas_entrada_test[:,2,:] #test
+
+#Reshape data in order to fulfill specified shape
 input = np.reshape(input, (20, 9, 2))
 labels = np.reshape(labels, (20, 9, 1))
-#comparador = metricas_salida[0:4]
 
-# Normaliza datos de entrada y de salida
-# https://pytorch.org/docs/stable/generated/torch.nn.functional.normalize.html#torch-nn-functional-normalize
+input_test = np.reshape(input, (20, 9, 2))
+labels_test = np.reshape(labels, (20, 9, 1))
 
-
-
+#Prepare the dataset
 data = prepare_data(input=input, edge_index=edge_index, labels=labels)
+data_test = prepare_data(input=input_test, edge_index=edge_index, labels=labels_test)
 
 class SimpleCustomBatch:
     def __init__(self, data):
@@ -62,7 +72,7 @@ dataset = torch.utils.data.TensorDataset(data.x, data.y)
 
 
 #Select number of epoch
-epoch = 100000
+epoch = 100
 
 
 # JORGE: fíjate en un solo caso, es decir, no vayas cambiando de grafos
@@ -93,4 +103,17 @@ for i in range(epoch):
         optimizer.step()
 
 plot_mse_epoch(iterations, loss_ar)    
-    #model.eval()
+    
+    
+model.eval(True)
+with torch.no_grad():
+    pred = model(x = data.x, edge_index = data.edge_index)
+    predictions = pred.detach().numpy()
+
+    # Convertir las etiquetas de prueba a numpy
+    labels = data.y.numpy()
+
+    # Calcular la precisión
+    accuracy = accuracy_score(labels, predictions)
+
+    print("Accuracy: {:.2f}%".format(accuracy * 100))
