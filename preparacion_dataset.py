@@ -122,7 +122,5 @@ def plot_mse_epoch(epoch, mse_loss):
     fig, ax = plt.subplots()
 
     plt.title("MSE per Iteration")
-    plt.legend()
-    plt.plot(range(epoch),mse_loss, color='red', marker='.')
-    
+    plt.plot(range(epoch),mse_loss, color='red', marker='.') 
     plt.savefig('mse_loss_plots/Iterations'+str(epoch)+'.png')

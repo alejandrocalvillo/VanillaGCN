@@ -65,8 +65,8 @@ dataset = torch.utils.data.TensorDataset(data.x, data.y)
 
 
 #Select number of epoch
-epoch = 100
-
+epoch = 10000
+lr = 1e-6
 
 # JORGE: fíjate en un solo caso, es decir, no vayas cambiando de grafos
 
@@ -74,7 +74,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = MyGCN().to(device)
 model.train(True)
 
-optimizer = torch.optim.Adam(model.parameters(), lr=1e-6)
+optimizer = torch.optim.Adam(model.parameters(), lr=lr)
 iterations = 0
 loss_ar = []
 for i in range(epoch):
@@ -97,4 +97,4 @@ for i in range(epoch):
 
 state_dict = model.state_dict()
 torch.save(state_dict, 'weigths/model_weights.pt')
-plot_mse_epoch(iterations, loss_ar)
+plot_mse_epoch(iterations, loss_ar, epoch, lr)
