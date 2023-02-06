@@ -2,7 +2,7 @@
 Implementation of a VanillaGCN for the case of a Digital Twin
  
 First, you will need to install python and pip
-##Docker
+## Docker
 
 If you want to make new graph data, you will need to download Docker. Follow the documentation at:
 - Docker Desktop: https://docs.docker.com/desktop/
