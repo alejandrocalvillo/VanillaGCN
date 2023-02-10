@@ -63,7 +63,7 @@ def collate_wrapper(batch):
 dataset = torch.utils.data.TensorDataset(data.x, data.y)
 
 #Select number of epoch and learning rate
-epochs = [100]
+epochs = [10]
 lrs =  [1e-4]
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -86,4 +86,4 @@ for epoch in epochs:
                 loss = F.mse_loss(out, data_in.tgt)
                 mse_loss = loss.detach().numpy()
                 loss_ar.append(mse_loss)
-        plot_mse_epoch(20, loss_ar, epoch, lr)
+        plot_mse_epoch(iterations, loss_ar, epoch, lr)
