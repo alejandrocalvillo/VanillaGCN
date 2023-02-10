@@ -1,5 +1,5 @@
 import sys
-sys.path.append("source/VanillaGCN")
+sys.path.append("../")
 
 #Core import
 from preparacion_dataset import preparation_dataset, prepare_data, plot_mse_epoch
@@ -20,7 +20,7 @@ import numpy as np
 
 #Load data from BCN-GNN-CHALLENGE
 data_folder_name = "training"
-src_path = f"{data_folder_name}/results/dataset1/"
+src_path = f"{data_folder_name}/results/dataset2/"
 # data_folder_name = "checkpoint"
 # CHECKPOINT_PATH = f"{data_folder_name}/checkpoint1"
 
