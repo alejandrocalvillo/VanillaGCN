@@ -36,6 +36,7 @@ metricas_entrada = F.normalize(metricas_entrada)
 input = metricas_entrada[:,:2,:] #train
 labels =metricas_entrada[:,2,:] #train
 
+print(input.shape)
 #Reshape data in order to fulfill specified shape
 input = np.reshape(input, (20, 9, 2))
 labels = np.reshape(labels, (20, 9, 1))
@@ -62,8 +63,8 @@ def collate_wrapper(batch):
 dataset = torch.utils.data.TensorDataset(data.x, data.y)
 
 #Select number of epoch and learning rate
-epochs = [500]
-lrs =  [1e-4]
+epochs = [500,1000]
+lrs =  [0.001, 1e-4,1e-6]
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 #The goal is to demostrate that the model is learning, to do so let's take an array of epochs(epochs) and learning rates (lrs)
