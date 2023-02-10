@@ -63,13 +63,13 @@ def collate_wrapper(batch):
 dataset = torch.utils.data.TensorDataset(data.x, data.y)
 
 #Select number of epoch and learning rate
-epochs = [500,1000]
-lrs =  [10, 1, 0.001, 1e-4,1e-6]
+epochs = [500]
+lrs =  [1e-4]
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 #The goal is to demostrate that the model is learning, to do so let's take an array of epochs(epochs) and learning rates (lrs)
 model = MyGCN().to(device)
-model.load_state_dict(torch.load("weigths/model_weights5000.0001.pt"))
+#model.load_state_dict(torch.load("weigths/model_weights5000.0001.pt"))
 model.eval()
 for epoch in epochs:
     for lr in lrs:
