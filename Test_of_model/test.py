@@ -86,4 +86,4 @@ for epoch in epochs:
                 loss = F.mse_loss(out, data_in.tgt)
                 mse_loss = loss.detach().numpy()
                 loss_ar.append(mse_loss)
-        plot_mse_epoch(iterations, loss_ar, epoch, lr)
+        plot_mse_epoch(20, loss_ar, epoch, lr)
