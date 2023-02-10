@@ -71,25 +71,20 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = MyGCN().to(device)
 model.load_state_dict(torch.load("weigths/model_weights5000.0001-eval.pt"))
 model.eval()
-for epoch in epochs:
-    for lr in lrs:
+
   
-        iterations = 0
-        loss_ar = []
-        optimizer = torch.optim.Adam(model.parameters(), lr=lr)
-        for i in range(epoch):
+iterations = 0
+loss_ar = []
 
-            testloader = torch.utils.data.DataLoader(dataset, batch_size=4, collate_fn= collate_wrapper, shuffle=True)
+
+testloader = torch.utils.data.DataLoader(dataset, batch_size=4, collate_fn= collate_wrapper, shuffle=True)
             
-            for j, data_in in enumerate(testloader):
-                optimizer.zero_grad()
-                iterations = iterations + 1
-                out = model(x = data_in.inp , edge_index=data.edge_index)
-                loss = F.mse_loss(out, data_in.tgt)
-                mse_loss = loss.detach().numpy()
-                loss_ar.append(mse_loss)
-                loss.backward()
-                optimizer.step()
+for j, data_in in enumerate(testloader):
+    iterations = iterations + 1
+    out = model(x = data_in.inp , edge_index=data.edge_index)
+    loss = F.mse_loss(out, data_in.tgt)
+    mse_loss = loss.detach().numpy()
+    loss_ar.append(mse_loss)
 
 
-        plot_mse_epoch(iterations, loss_ar, epoch, lr)
+plot_mse_epoch(iterations, loss_ar, 1, 1e-4)

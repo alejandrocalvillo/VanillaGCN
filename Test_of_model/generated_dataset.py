@@ -104,8 +104,8 @@ def generate_tm(G,max_avg_lbda, traffic_file):
     on_off = "2,10,5" #time_distribution, avg off_time exp, avg on_time exp
     time_dist = [poisson,cbr,on_off]
     
-    pkt_dist_1 = "0,300,0.5,1700,0.5" #genric pkt size dist, pkt_size 1, prob 1, pkt_size 2, prob 2
-    pkt_dist_2 = "0,500,0.6,1000,0.2,1400,0.2" #genric pkt size dist, pkt_size 1, prob 1, 
+    pkt_dist_1 = "0,600,0.8,800,0.6" #genric pkt size dist, pkt_size 1, prob 1, pkt_size 2, prob 2
+    pkt_dist_2 = "0,400,0.2,1000,0.2,1400,0.1" #genric pkt size dist, pkt_size 1, prob 1, 
                                                # pkt_size 2, prob 2, pkt_size 3, prob 3
     pkt_size_dist = [pkt_dist_1, pkt_dist_2]
     tos_lst = [0,1,2]
