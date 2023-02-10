@@ -1,8 +1,11 @@
+import sys
+sys.path.append("VanillaGCN/")
+
 #Core import
-from preparacion_dataset.preparation_dataset import preparation_dataset, prepare_data, plot_mse_epoch
+from preparacion_dataset import preparation_dataset, prepare_data, plot_mse_epoch
 
 #GCN Model
-from model.MyGCN import MyGCN
+from model import MyGCN
 
 #Pytorch 
 import torch
