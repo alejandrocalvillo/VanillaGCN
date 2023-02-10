@@ -64,7 +64,7 @@ dataset = torch.utils.data.TensorDataset(data.x, data.y)
 
 #Select number of epoch and learning rate
 epochs = [500,1000]
-lrs =  [0.001, 1e-4,1e-6]
+lrs =  [10, 1, 0.001, 1e-4,1e-6]
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 #The goal is to demostrate that the model is learning, to do so let's take an array of epochs(epochs) and learning rates (lrs)
