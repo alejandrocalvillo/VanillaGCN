@@ -69,7 +69,7 @@ lrs =  [1e-4]
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 #The goal is to demostrate that the model is learning, to do so let's take an array of epochs(epochs) and learning rates (lrs)
 model = MyGCN().to(device)
-model.load_state_dict(torch.load("weigths/model_weights5000.0001.pt"))
+model.load_state_dict(torch.load("weigths/model_weights5000.0001-eval.pt"))
 model.eval()
 for epoch in epochs:
     for lr in lrs:
@@ -86,5 +86,5 @@ for epoch in epochs:
                 loss = F.mse_loss(out, data_in.tgt)
                 mse_loss = loss.detach().numpy()
                 loss_ar.append(mse_loss)
-                
+
         plot_mse_epoch(iterations, loss_ar, epoch, lr)
