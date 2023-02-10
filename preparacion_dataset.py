@@ -11,10 +11,11 @@ from torch_geometric.data import Data
 #Math and transforming imports
 import numpy as np
 import random
-import matplotlib.pyplot as plt
 
 #Networkx
 import networkx as nx
+
+#Astropys
 from astropy.visualization import hist
 
 #MatPlotLib

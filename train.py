@@ -58,7 +58,6 @@ def collate_wrapper(batch):
 
 dataset = torch.utils.data.TensorDataset(data.x, data.y)
 
-
 #Select number of epoch and learning rate
 epochs = [100, 500, 1000, 10000, 100000]
 lrs = [0.1, 0.001, 1e-3, 1e-4, 1e-5, 1e-6, 1e-9]
@@ -76,20 +75,16 @@ for epoch in epochs:
         iterations = 0
         loss_ar = []
         for i in range(epoch):
-            
-#            print("Epoch: ", i+1)
 
             testloader = torch.utils.data.DataLoader(dataset, batch_size=4, collate_fn= collate_wrapper, shuffle=True)
 
             for j, data_in in enumerate(testloader):
                 optimizer.zero_grad()
                 iterations = iterations + 1
-                #print(f'iteracion: {j}')
                 out = model(x = data_in.inp , edge_index=data.edge_index)
                 loss = F.mse_loss(out, data_in.tgt)
                 mse_loss = loss.detach().numpy()
                 loss_ar.append(mse_loss)
-                #print("Loss: ", loss)
                 loss.backward()
                 optimizer.step()
 

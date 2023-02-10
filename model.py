@@ -197,7 +197,7 @@ def print_results(result_dict):
 class MyGCN(torch.nn.Module):
     def __init__(self):
         super().__init__()
-	# Jorge: igual deberias poner add_self_loops=False
+        #2 inputs, 64 as hidden state
         self.conv1 = GCNConv(2, 64, add_self_loops = False)
         self.conv2 = GCNConv(64, 1, add_self_loops = False)
 
@@ -212,4 +212,4 @@ class MyGCN(torch.nn.Module):
         x = F.dropout(x, training=self.training)
 
         return x
-        # F.log_softmax(x, dim=1)
+        # F.log_softmax(x, dim=1) Cross Entropy(Ver que relaccion tiene una señal con la otra)
