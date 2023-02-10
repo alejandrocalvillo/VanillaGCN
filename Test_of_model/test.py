@@ -63,7 +63,7 @@ def collate_wrapper(batch):
 dataset = torch.utils.data.TensorDataset(data.x, data.y)
 
 #Select number of epoch and learning rate
-epochs = [500]
+epochs = [20]
 lrs =  [1e-4]
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
