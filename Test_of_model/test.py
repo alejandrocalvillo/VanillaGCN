@@ -76,15 +76,20 @@ for epoch in epochs:
   
         iterations = 0
         loss_ar = []
+        optimizer = torch.optim.Adam(model.parameters(), lr=lr)
         for i in range(epoch):
 
             testloader = torch.utils.data.DataLoader(dataset, batch_size=4, collate_fn= collate_wrapper, shuffle=True)
-
+            
             for j, data_in in enumerate(testloader):
+                optimizer.zero_grad()
                 iterations = iterations + 1
                 out = model(x = data_in.inp , edge_index=data.edge_index)
                 loss = F.mse_loss(out, data_in.tgt)
                 mse_loss = loss.detach().numpy()
                 loss_ar.append(mse_loss)
+                loss.backward()
+                optimizer.step()
+
 
         plot_mse_epoch(iterations, loss_ar, epoch, lr)
