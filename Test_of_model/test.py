@@ -1,8 +1,8 @@
 #Core import
-from preparacion_dataset import preparation_dataset, prepare_data, plot_mse_epoch
+from .preparacion_dataset import preparation_dataset, prepare_data, plot_mse_epoch
 
 #GCN Model
-from model import MyGCN
+from .model import MyGCN
 
 #Pytorch 
 import torch
