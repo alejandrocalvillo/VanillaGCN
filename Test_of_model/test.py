@@ -63,17 +63,17 @@ def collate_wrapper(batch):
 dataset = torch.utils.data.TensorDataset(data.x, data.y)
 
 #Select number of epoch and learning rate
-epochs = [20]
+epochs = [100]
 lrs =  [1e-4]
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 #The goal is to demostrate that the model is learning, to do so let's take an array of epochs(epochs) and learning rates (lrs)
 model = MyGCN().to(device)
-#model.load_state_dict(torch.load("weigths/model_weights5000.0001.pt"))
+model.load_state_dict(torch.load("weigths/model_weights5000.0001.pt"))
 model.eval()
 for epoch in epochs:
     for lr in lrs:
-        optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+  
         iterations = 0
         loss_ar = []
         for i in range(epoch):
@@ -81,12 +81,9 @@ for epoch in epochs:
             testloader = torch.utils.data.DataLoader(dataset, batch_size=4, collate_fn= collate_wrapper, shuffle=True)
 
             for j, data_in in enumerate(testloader):
-                optimizer.zero_grad()
                 iterations = iterations + 1
                 out = model(x = data_in.inp , edge_index=data.edge_index)
                 loss = F.mse_loss(out, data_in.tgt)
                 mse_loss = loss.detach().numpy()
                 loss_ar.append(mse_loss)
-                loss.backward()
-                optimizer.step()
         plot_mse_epoch(iterations, loss_ar, epoch, lr)
