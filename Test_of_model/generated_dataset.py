@@ -104,8 +104,8 @@ def generate_tm(G,max_avg_lbda, traffic_file):
     on_off = "2,10,5" #time_distribution, avg off_time exp, avg on_time exp
     time_dist = [poisson,cbr,on_off]
     
-    pkt_dist_1 = "0,600,0.8,800,0.6" #genric pkt size dist, pkt_size 1, prob 1, pkt_size 2, prob 2
-    pkt_dist_2 = "0,400,0.2,1000,0.2,1400,0.1" #genric pkt size dist, pkt_size 1, prob 1, 
+    pkt_dist_1 = "0,300,0.5,1700,0.5" #genric pkt size dist, pkt_size 1, prob 1, pkt_size 2, prob 2
+    pkt_dist_2 = "0,500,0.6,1000,0.2,1400,0.2" #genric pkt size dist, pkt_size 1, prob 1, 
                                                # pkt_size 2, prob 2, pkt_size 3, prob 3
     pkt_size_dist = [pkt_dist_1, pkt_dist_2]
     tos_lst = [0,1,2]
@@ -113,13 +113,18 @@ def generate_tm(G,max_avg_lbda, traffic_file):
     with open(traffic_file,"w") as tm_fd:
         for src in G:
             for dst in G:
-                avg_bw = random.randint(10,max_avg_lbda)
-                td = random.choice(time_dist)
-                sd = random.choice(pkt_size_dist)
-                tos = random.choice(tos_lst)
-                
-                traffic_line = "{},{},{},{},{},{}".format(
-                    src,dst,avg_bw,td,sd,tos)
+                avg_bw = random.randint(10,10000)
+                time_dist = 2
+                on_time = 5
+                off_time = 10
+                pkt_size_1 = 300
+                prob_1 = 0.5
+                pkt_size_2 = 1700
+                prob_2 = 0.5
+                tos = 0
+                traffic_line = "{},{},{},{},{},{},0,{},{},{},{},{}".format(
+                    src,dst,avg_bw,time_dist,off_time,on_time,pkt_size_1,
+                    prob_1,pkt_size_2,prob_2,tos)
                 tm_fd.write(traffic_line+"\n")
 
 """
