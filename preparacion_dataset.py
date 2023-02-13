@@ -78,22 +78,6 @@ def preparation_dataset(src_path):
 
     return in_data_tensor, edge_index
     
-def hg_to_data (HG):
-    dic_HG = []
-    dic_y_t = []
-    adjacency = []
-    for i in range(len(HG)):
-        dic_HG.append({"capacity": np.expand_dims(list(nx.get_node_attributes(HG[i], 'capacity').values()), axis=1),
-            "queue_size": np.expand_dims(list(nx.get_node_attributes(HG[i], 'queue_size').values()), axis=1)
-            })
-    for i in range(len(HG)):
-        dic_y_t.append(np.expand_dims(list(nx.get_node_attributes(HG[i], 'delay').values()), axis = 1))
-    
-    for i in range(len(HG)):
-        adjacency.append(nx.to_numpy_matrix(HG[i]))
-
-    return dic_HG, dic_y_t, adjacency
-
 def prepare_data(input, edge_index, labels):
     """
     Prepare data for the GCN model

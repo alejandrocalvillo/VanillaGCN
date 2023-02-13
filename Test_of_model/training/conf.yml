@@ -1,4 +1,0 @@
-dataset_name: dataset2
-rm_prev_results: n
-samples_per_file: 10
-threads: 6
