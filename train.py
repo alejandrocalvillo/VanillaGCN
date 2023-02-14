@@ -1,6 +1,7 @@
 #Core import
 from preparacion_dataset import preparation_dataset, prepare_data, plot_mse_epoch
 
+from cdf_generator import cdf_plot
 #GCN Model
 from model import MyGCN
 
@@ -24,11 +25,17 @@ src_path = f"{data_folder_name}/results/dataset1/"
 #Load the data
 metricas_entrada,edge_index = preparation_dataset(src_path)
 
-print(metricas_entrada)
 # Normalize data
 # https://pytorch.org/docs/stable/generated/torch.nn.functional.normalize.html#torch-nn-functional-normalize
 
 # metricas_entrada = F.normalize(metricas_entrada)
+pkts_gen = metricas_entrada[:,0,:]
+jitter = metricas_entrada[:,1,:]
+delay = metricas_entrada[:,2,:]
+
+cdf_plot(pkts_gen, "Packets_Generated")
+cdf_plot(jitter,"Jitter")
+cdf_plot(delay, "Delay")
 
 # #Select features to predict
 # input = metricas_entrada[:,:2,:] #train
