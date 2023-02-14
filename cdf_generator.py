@@ -11,5 +11,10 @@ def cdf_plot(tensor, name):
     plt.plot(x,sorted_tensor)
     plt.title(name+" CDF")
     if name == "Delay":
-        plt.xlabel("Delay [s]")
+        plt.ylabel("Delay [s]")
+    if name == "Packets_Generated":
+        plt.ylabel("Packets Generated")
+    if name == "Jitter":
+        plt.ylabel("Jitter")
+
     plt.savefig('cdf_plots/' +name+ '.png')
