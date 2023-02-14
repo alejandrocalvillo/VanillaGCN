@@ -33,9 +33,9 @@ pkts_gen = metricas_entrada[:,0,:]
 jitter = metricas_entrada[:,1,:]
 delay = metricas_entrada[:,2,:]
 
-cdf_plot(pkts_gen, "Packets_Generated")
-cdf_plot(jitter,"Jitter")
-cdf_plot(delay, "Delay")
+metricas = [pkts_gen,jitter,delay]
+labels = ["Generated Traffic", "Jitter", "Delay"]
+cdf_plot(metricas, labels)
 
 # #Select features to predict
 # input = metricas_entrada[:,:2,:] #train
