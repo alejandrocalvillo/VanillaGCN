@@ -1,13 +1,11 @@
 import torch
 import matplotlib.pyplot as plt
 
-def cdf_plot(tensors, labels):
-    sorted_tensors = []
-    for tensor in tensors:
-        sorted_tensor, indices = torch.sort(tensor)
-        sorted_tensors.append(sorted_tensor)
+def cdf_plot(tensor, name):
+    
+    sorted_tensor, indices = torch.sort(tensor)
     y = torch.arange(1, len(tensor) + 1) / len(tensor)
-    for i, tensor in enumerate(sorted_tensors):
-        plt.plot(tensor, y, label=labels[i])
-    plt.legend()
-    plt.savefig('cdf_plots/CDF_conjunta.png')
+
+    fig, ax = plt.subplots()
+    plt.plot(y,sorted_tensor)
+    plt.savefig('cdf_plots/' +name+ '.png')
