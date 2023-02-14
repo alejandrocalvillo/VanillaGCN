@@ -1,7 +1,7 @@
 import torch
 import matplotlib.pyplot as plt
 
-def plot_cdf(tensors, labels):
+def cdf_plot(tensors, labels):
     sorted_tensors = []
     for tensor in tensors:
         sorted_tensor, indices = torch.sort(tensor)
