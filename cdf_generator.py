@@ -23,7 +23,7 @@ def cdf_plot(tensor, name):
 def cdf_hist (tensor):
     fig, ax = plt.subplots()
 
-    # Seleccionar la feature de interés (la última columna del tensor)
+   # Seleccionar la feature de interés (la última columna del tensor)
     feature = tensor[:, :, -1]
 
     # Iterar sobre el primer índice del tensor para calcular la CDF de cada grafo
@@ -32,7 +32,7 @@ def cdf_hist (tensor):
         feature_i = feature[i, :].ravel()
         
         # Calcular la suma acumulada de la feature
-        cumulative_sum = torch.cumsum(feature_i, dim = 0)
+        cumulative_sum = torch.cumsum(feature_i, dim=0)
         
         # Calcular la CDF de la feature
         cdf = cumulative_sum / torch.sum(feature_i)
@@ -44,6 +44,5 @@ def cdf_hist (tensor):
     plt.title('CDF')
     plt.xlabel('Índex')
     plt.ylabel('Delay Accumulated')
-    plt.legend()
     
     plt.savefig('cdf_plots/Delay_HIST_CDF.png')
