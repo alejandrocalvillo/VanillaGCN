@@ -21,11 +21,13 @@ def cdf_plot(tensor, name):
     plt.savefig('cdf_plots/' +name+ '.png')
 
 def cdf_hist (tensor):
-    fig, ax = plt.subplots()
-    sorted_tensor, indices = torch.sort(tensor)
-    np.cumsum(sorted_tensor)
-    x = torch.arange(1, len(tensor) + 1) / len(tensor)
-    plt.plot(x,sorted_tensor)
-   # plt.hist(tensor, cumulative=True, label='CDF', histtype='step', alpha=0.8)
-    
+    fig, ax = plt.subplots
+    cdf = np.cumsum(tensor) / np.sum(tensor)
+
+    # Visualizar la CDF
+    plt.plot(cdf)
+    plt.title('CDF')
+    plt.xlabel('Índex')
+    plt.ylabel('Delay Accumulated')
+        
     plt.savefig('cdf_plots/Delay_HIST_CDF.png')
