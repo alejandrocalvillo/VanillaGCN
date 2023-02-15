@@ -41,7 +41,4 @@ def cdf_hist (tensor):
     plt.xlabel('Delay')
     plt.ylabel('Cumulative Probability')
 
-    plt.title('CDF')
-    plt.xlabel('Delay')
-    plt.ylabel('Cumulative Probability')
     plt.savefig('cdf_plots/Delay_HIST_CDF_Separated.png')
