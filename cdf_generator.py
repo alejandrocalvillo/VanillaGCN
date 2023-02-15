@@ -32,10 +32,10 @@ def cdf_hist (tensor):
         feature_i = feature[i, :].ravel()
         
         # Calcular la suma acumulada de la feature
-        cumulative_sum = np.cumsum(feature_i)
+        cumulative_sum = torch.cumsum(feature_i, dim = 0)
         
         # Calcular la CDF de la feature
-        cdf = cumulative_sum / np.sum(feature_i)
+        cdf = cumulative_sum / torch.sum(feature_i)
         
         # Visualizar la CDF con un color diferente para cada grafo
         plt.plot(cdf, color=plt.cm.Set1(i), label=f"Grafo {i+1}")

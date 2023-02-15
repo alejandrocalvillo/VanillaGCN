@@ -24,6 +24,8 @@ src_path = f"{data_folder_name}/results/dataset1/"
 metricas_entrada,edge_index = preparation_dataset(src_path)
 
 delay  = metricas_entrada[:,2,:]
+delay = np.reshape(delay, (20, 9, 1))
+
 cdf_hist(delay)
 
 # Normalize data
