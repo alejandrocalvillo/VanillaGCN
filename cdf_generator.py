@@ -21,13 +21,29 @@ def cdf_plot(tensor, name):
     plt.savefig('cdf_plots/' +name+ '.png')
 
 def cdf_hist (tensor):
-    fig, ax = plt.subplots
-    cdf = np.cumsum(tensor) / np.sum(tensor)
+    fig, ax = plt.subplots()
 
-    # Visualizar la CDF
-    plt.plot(cdf)
+    # Seleccionar la feature de interés (la última columna del tensor)
+    feature = tensor[:, :, -1]
+
+    # Iterar sobre el primer índice del tensor para calcular la CDF de cada grafo
+    for i in range(tensor.shape[0]):
+        # Seleccionar la feature de interés para el grafo actual
+        feature_i = feature[i, :].ravel()
+        
+        # Calcular la suma acumulada de la feature
+        cumulative_sum = np.cumsum(feature_i)
+        
+        # Calcular la CDF de la feature
+        cdf = cumulative_sum / np.sum(feature_i)
+        
+        # Visualizar la CDF con un color diferente para cada grafo
+        plt.plot(cdf, color=plt.cm.Set1(i), label=f"Grafo {i+1}")
+        
+    # Configurar el plot y mostrarlo
     plt.title('CDF')
     plt.xlabel('Índex')
     plt.ylabel('Delay Accumulated')
-        
+    plt.legend()
+    
     plt.savefig('cdf_plots/Delay_HIST_CDF.png')
