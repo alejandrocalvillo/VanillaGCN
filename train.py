@@ -25,7 +25,7 @@ metricas_entrada,edge_index = preparation_dataset(src_path)
 
 delay  = metricas_entrada[:,2,:]
 delay = np.reshape(delay, (20, 9, 1))
-
+cdf_plot(delay, "Delay")
 cdf_hist(delay)
 
 # Normalize data
