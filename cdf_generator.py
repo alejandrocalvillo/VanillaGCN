@@ -23,22 +23,13 @@ def cdf_plot(tensor, name):
 def cdf_hist (tensor):
     fig, ax = plt.subplots()
 
-    # Iteramos sobre cada grafo en el tensor
-    for i in range(tensor.shape[0]):
-        # Seleccionamos los datos correspondientes al grafo actual
-        datos = tensor[i, :, :].reshape(-1, 1)
+    matriz = tensor.reshape(-1, 1)
+    matriz_ordenada = np.sort(matriz, axis=0)
+    valores, conteos = np.unique(matriz_ordenada, return_counts=True)
+    cdf = np.cumsum(conteos).astype(np.float64) / matriz.shape[0]
+    plt.plot(valores, cdf)
 
-        # Ordenamos los datos de forma ascendente
-        datos_ordenados = np.sort(datos, axis=0)
 
-        # Calculamos la fracción acumulada de observaciones
-        cdf = np.cumsum(np.ones_like(datos_ordenados)).astype(np.float64) / datos_ordenados.shape[0]
-
-        # Traza la CDF en el mismo gráfico
-        plt.plot(datos_ordenados, cdf, label=f"Grafo {i+1}")
-
-    # Etiquetas y leyenda
     plt.xlabel('Delay')
     plt.ylabel('Cumulative Probability')
-
-    plt.savefig('cdf_plots/Delay_HIST_CDF_Separated.png')
+    plt.savefig('cdf_plots/Delay_HIST_CDF.png')
