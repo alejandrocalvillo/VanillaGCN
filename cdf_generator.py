@@ -18,3 +18,10 @@ def cdf_plot(tensor, name):
         plt.ylabel("Jitter")
 
     plt.savefig('cdf_plots/' +name+ '.png')
+
+def cdf_hist (tensor):
+    fig, ax = plt.subplots
+    plt.hist(tensor, normed=True, cumulative=True, label='CDF',
+         histtype='step', alpha=0.8, color='k')
+    
+    plt.savefig('cdf_plots/Delay_HIST_CDF.png')
