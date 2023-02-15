@@ -14,15 +14,6 @@ import torch.nn.functional as F
 #Numpy
 import numpy as np
 
-pkts_gen = metricas_entrada[:,0,:]
-jitter = metricas_entrada[:,1,:]
-delay = metricas_entrada[:,2,:]
-
-cdf_plot(pkts_gen, "Packets_Generated")
-cdf_plot(jitter,"Jitter")
-cdf_plot(delay, "Delay")
-
-
 #Load data from BCN-GNN-CHALLENGE
 data_folder_name = "training"
 src_path = f"{data_folder_name}/results/dataset1/"
